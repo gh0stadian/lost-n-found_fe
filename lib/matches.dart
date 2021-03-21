@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
 
 class MatchesScreen extends StatelessWidget {
   @override
@@ -7,5 +6,4 @@ class MatchesScreen extends StatelessWidget {
     // TODO: implement build
     throw UnimplementedError();
   }
-
 }
