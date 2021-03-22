@@ -1,7 +1,8 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
-
+import 'text.dart';
 import 'general_widgets.dart';
+import 'google_maps.dart';
 
 class DetailPage extends StatelessWidget {
   @override
@@ -13,8 +14,10 @@ class DetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[
-            new Heading(),
+            new DetailHeading("Item title"),
             new PhotoRow(),
+            new InfoRow(),
+            new MapRow(),
           ],
         ),
       ),
@@ -35,22 +38,69 @@ class PhotoRow extends StatelessWidget {
         child: new Stack(
           children: <Widget>[
             Box,
-            Subtitle,
+            DetailSubtitle("Photos:"),
             SampleImage,
+            EditIcon("")
+          ],
+        ));
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+        height: 250.0,
+        margin: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 10.0,
+        ),
+        alignment: FractionalOffset.topCenter,
+        child: new Stack(
+          children: <Widget>[
+            Box,
+            DetailSubtitle("Information:"),
+            EditIcon(""),
+            DetailInformation("brand", "description", "category", "model"),
+            // SampleImage,
+          ],
+        ));
+  }
+}
+
+class MapRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+        height: 250.0,
+        margin: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 10.0,
+        ),
+        alignment: FractionalOffset.topCenter,
+        child: new Stack(
+          children: <Widget>[
+            Box,
+            DetailSubtitle("Location:"),
+            EditIcon(""),
+            MapSampleState(),
           ],
         ));
   }
 }
 
 final SampleImage = new Container(
-  margin: new EdgeInsets.symmetric(vertical: 10.0),
+  margin: new EdgeInsets.only(top: 5.0),
   alignment: FractionalOffset.center,
-  child: new Image(
-    image: new AssetImage("assets/img/flower.jpg"),
-    height: 200.0,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(8.0),
+    child: new Image(
+      image: new AssetImage("assets/img/flower.jpg"),
+      height: 200.0,
     // width: BoxFit.fitWidth,
     // fit: BoxFit.fitWidth,
     // width: 92.0,
+    )
   ),
 );
 
@@ -71,32 +121,33 @@ final Box = new Container(
   ),
 );
 
-class Heading extends StatelessWidget {
+
+
+class EditIcon extends StatelessWidget {
+  final String redirection;
+  // Widget Function() redirection,
+
+  EditIcon(this.redirection, {Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      alignment: FractionalOffset.centerLeft,
-      margin: new EdgeInsets.only(top: 0, left: 10),
-      child: GradientText(
-        text: 'Lost item title',
-        colors: <Color>[
-          Colors.blue,
-          Colors.lightBlue.shade900,
-        ],
-        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-      ),
+    return new GestureDetector(
+      onTap: (){
+    // Navigator.push(
+      // context,
+      // MaterialPageRoute(builder: (context) => redirection()),
+    // );
+      print("edit pressed");
+      },
+      child:Container(
+        alignment: FractionalOffset.topRight,
+        margin: new EdgeInsets.only(right: 5.0, top: 5.0),
+        child: Icon(
+          Icons.edit,
+          color: Colors.grey,
+          size: 20.0,
+        ),
+      )
     );
   }
 }
-
-final Subtitle = new Container(
-  margin: const EdgeInsets.symmetric(
-    vertical: 8.0,
-    horizontal: 10.0,
-  ),
-  alignment: FractionalOffset.topLeft,
-  child: new Text(
-    'Photos:',
-    style: TextStyle(color: Colors.grey),
-  ),
-);

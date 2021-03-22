@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class CustomTopBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
-
   final String title;
 
   CustomTopBar(

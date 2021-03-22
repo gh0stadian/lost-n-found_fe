@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'Api classes.dart';
 import 'detail_page.dart';
+import 'text.dart';
 
 // import 'text.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
@@ -18,10 +19,10 @@ class LostItemPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[
-            new Heading(),
-            new PlanetRow(),
-            new PlanetRow(),
-            new PlanetRow(),
+            new Heading("Lost items"),
+            new ItemRow(),
+            new ItemRow(),
+            new ItemRow(),
           ],
         ),
       ),
@@ -29,7 +30,7 @@ class LostItemPage extends StatelessWidget {
   }
 }
 
-class PlanetRow extends StatelessWidget {
+class ItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -47,15 +48,15 @@ class PlanetRow extends StatelessWidget {
         },
         child: new Stack(
           children: <Widget>[
-            planetCard,
-            planetThumbnail,
-            title,
+            ItemCard,
+            ItemThumbnail,
+            ItemTitle("This is item title"),
           ],
         )));
   }
 }
 
-final planetCard = new Container(
+final ItemCard = new Container(
   height: 250.0,
   margin: new EdgeInsets.only(left: 2.0),
   decoration: new BoxDecoration(
@@ -72,41 +73,17 @@ final planetCard = new Container(
   ),
 );
 
-final planetThumbnail = new Container(
+final ItemThumbnail = new Container(
   margin: new EdgeInsets.symmetric(vertical: 0.0),
   alignment: FractionalOffset.topCenter,
-  child: new Image(
-    image: new AssetImage("assets/img/flower.jpg"),
-    height: 200.0,
-    // width: BoxFit.fitWidth,
-    // fit: BoxFit.fitWidth,
-    // width: 92.0,
+  child: ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: new Image(
+        image: new AssetImage("assets/img/flower.jpg"),
+        height: 200.0,
+        // width: BoxFit.fitWidth,
+        // fit: BoxFit.fitWidth,
+        // width: 92.0,
+      )
   ),
 );
-
-final title = new Container(
-  alignment: FractionalOffset.bottomLeft,
-  margin: new EdgeInsets.only(left: 20, bottom: 10),
-  child: Text(
-    "This is item title",
-    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-  ),
-);
-
-class Heading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      alignment: FractionalOffset.centerLeft,
-      margin: new EdgeInsets.only(top: 40, left: 10),
-      child: GradientText(
-        text: 'Lost items',
-        colors: <Color>[
-          Colors.blue,
-          Colors.lightBlue.shade900,
-        ],
-        style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
