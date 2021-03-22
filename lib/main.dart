@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Api classes.dart';
 import 'login.dart';
-import 'lost.dart';
-import 'found.dart';
+import 'detail_page.dart';
+import 'lost_item.dart';
 import 'dart:async';
 
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: LostItemPage(),
     );
   }
 }
