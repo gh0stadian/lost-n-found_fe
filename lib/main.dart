@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Api classes.dart';
+import 'api_requests/items.dart';
 import 'login.dart';
 import 'detail_page.dart';
 import 'lost_item.dart';
@@ -7,8 +7,7 @@ import 'dart:async';
 
 
 void main() {
-  var result = fetchLostItems();
-  // print(result);
+  funcThatMakesAsyncCall();
   runApp(MyApp());
 }
 
@@ -33,4 +32,9 @@ class MyApp extends StatelessWidget {
       home: LostItemPage(),
     );
   }
+}
+
+Future funcThatMakesAsyncCall() async {
+  var result = await fetchLostItems();
+  print(result);
 }

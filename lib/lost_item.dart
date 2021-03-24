@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'Api classes.dart';
 import 'detail_page.dart';
 import 'text.dart';
-
-// import 'text.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'general_widgets.dart';
 
@@ -46,13 +43,13 @@ class ItemRow extends StatelessWidget {
             MaterialPageRoute(builder: (context) => DetailPage()),
           );
         },
-        child: new Stack(
-          children: <Widget>[
-            ItemCard,
-            ItemThumbnail,
-            ItemTitle("This is item title"),
-          ],
-        )));
+          child: new Stack(
+            children: <Widget>[
+              ItemCard,
+              ItemThumbnail,
+              ItemTitle("This is item title"),
+            ],
+          )));
   }
 }
 

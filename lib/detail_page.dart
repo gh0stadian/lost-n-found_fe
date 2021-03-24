@@ -83,7 +83,7 @@ class MapRow extends StatelessWidget {
             Box,
             DetailSubtitle("Location:"),
             EditIcon(""),
-            MapSampleState(),
+            // MapSampleState(),
           ],
         ));
   }
