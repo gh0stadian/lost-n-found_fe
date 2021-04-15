@@ -1,7 +1,9 @@
+import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 part 'item.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Item {
   Item(this.id, this.title, this.description, this.latitude, this.longitude,
       this.category, this.images);
@@ -9,8 +11,8 @@ class Item {
   String id;
   String title;
   String description;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   String category;
   List<String> images;
 

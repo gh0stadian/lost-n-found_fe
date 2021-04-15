@@ -11,8 +11,8 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     json['id'] as String,
     json['title'] as String,
     json['description'] as String,
-    json['latitude'] as String,
-    json['longitude'] as String,
+    (json['latitude'] as num)?.toDouble(),
+    (json['longitude'] as num)?.toDouble(),
     json['category'] as String,
     (json['images'] as List)?.map((e) => e as String)?.toList(),
   );

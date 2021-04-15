@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'text.dart';
 import 'general_widgets.dart';
 import 'google_maps.dart';
+import 'models/item.dart';
 
 class DetailPage extends StatelessWidget {
+
+  DetailPage(this.item);
+  Item item;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -15,9 +20,9 @@ class DetailPage extends StatelessWidget {
         child: new Column(
           children: <Widget>[
             new DetailHeading("Item title"),
-            new PhotoRow(),
-            new InfoRow(),
-            new MapRow(),
+            new PhotoRow(item),
+            new InfoRow(item),
+            new MapRow(item),
           ],
         ),
       ),
@@ -26,6 +31,9 @@ class DetailPage extends StatelessWidget {
 }
 
 class PhotoRow extends StatelessWidget {
+  PhotoRow(this.item);
+
+  Item item;
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -47,6 +55,9 @@ class PhotoRow extends StatelessWidget {
 }
 
 class InfoRow extends StatelessWidget {
+  InfoRow(this.item);
+
+  Item item;
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -61,7 +72,7 @@ class InfoRow extends StatelessWidget {
             Box,
             DetailSubtitle("Information:"),
             EditIcon(""),
-            DetailInformation("brand", "description", "category", "model"),
+            DetailInformation("brand", item.description, item.category, "model"),
             // SampleImage,
           ],
         ));
@@ -69,6 +80,8 @@ class InfoRow extends StatelessWidget {
 }
 
 class MapRow extends StatelessWidget {
+  MapRow(this.item);
+  Item item;
   @override
   Widget build(BuildContext context) {
     return new Container(
