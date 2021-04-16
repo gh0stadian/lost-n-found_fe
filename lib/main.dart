@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'api_requests/items.dart';
 import 'login.dart';
 import 'detail_page.dart';
 import 'lost_item.dart';
 import 'dart:async';
+import 'pop_ups/edit_info.dart';
 
 
 void main() {
@@ -30,11 +32,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LostItemPage(),
+      // home: popUpPage(),
     );
   }
 }
 
-Future funcThatMakesAsyncCall() async {
-  var result = await fetchLostItems();
-  print(result);
+funcThatMakesAsyncCall() {
+  var result = fetchLostItems();
+  // print(result.description);
 }

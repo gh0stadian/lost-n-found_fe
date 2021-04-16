@@ -1,5 +1,6 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'text.dart';
 import 'general_widgets.dart';
 import 'google_maps.dart';
@@ -19,7 +20,7 @@ class DetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[
-            new DetailHeading("Item title"),
+            new DetailHeading(item.title),
             new PhotoRow(item),
             new InfoRow(item),
             new MapRow(item),
@@ -48,7 +49,7 @@ class PhotoRow extends StatelessWidget {
             Box,
             DetailSubtitle("Photos:"),
             SampleImage,
-            EditIcon("")
+            EditIcon(item)
           ],
         ));
   }
@@ -71,7 +72,7 @@ class InfoRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Information:"),
-            EditIcon(""),
+            EditIcon(item),
             DetailInformation("brand", item.description, item.category, "model"),
             // SampleImage,
           ],
@@ -95,7 +96,7 @@ class MapRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Location:"),
-            EditIcon(""),
+            EditIcon(item),
             // MapSampleState(),
           ],
         ));
@@ -137,20 +138,22 @@ final Box = new Container(
 
 
 class EditIcon extends StatelessWidget {
-  final String redirection;
+  Item item;
   // Widget Function() redirection,
 
-  EditIcon(this.redirection, {Key key}) : super(key: key);
+  EditIcon(this.item, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: (){
-    // Navigator.push(
-      // context,
-      // MaterialPageRoute(builder: (context) => redirection()),
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PopUp(item)));
     // );
-      print("edit pressed");
+    //     createAlertDialog(item, context).then((onValue) {
+    //       print(onValue);
+    //     });
       },
       child:Container(
         alignment: FractionalOffset.topRight,
