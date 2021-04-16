@@ -11,8 +11,8 @@ class Item {
   String id;
   String title;
   String description;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   String category;
   List<String> images;
 

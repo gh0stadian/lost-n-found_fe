@@ -54,3 +54,27 @@ Future<int> updateLostItem(Item item) async {
     return 1;
   }
 }
+
+Future<int> updateFoundItem(Item item) async {
+  String route = 'api/items/found/' + item.id;
+  var response =
+  await http.patch(Uri.http('10.0.2.2:8082', route),
+    headers: {
+      'Authorization':
+      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3'
+          'RfdXNlcjJAZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZ'
+          'jZXun9tki0M',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body:
+    json.encode(item.toJsonWithoutImages()),
+  );
+  if (response.statusCode == 200) {
+    print("UPDATE OK");
+    return 0;
+  } else {
+    print("UPDATE FAILED");
+    return 1;
+  }
+}
+

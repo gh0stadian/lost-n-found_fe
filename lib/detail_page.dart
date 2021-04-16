@@ -2,6 +2,7 @@ import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
+import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
 import 'api_requests/items.dart';
 import 'text.dart';
 import 'general_widgets.dart';
@@ -52,7 +53,7 @@ class PhotoRow extends StatelessWidget {
             Box,
             DetailSubtitle("Photos:"),
             SampleImage,
-            EditIcon(item, null),
+            EditIcon(item, editPhotosPopUp()),
           ],
         ));
   }
@@ -177,8 +178,8 @@ Route popUpRoute(Widget page) {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = Offset(0.0, 1.0);
         var end = Offset.zero;
-        var curve = Curves.ease;
-        timeDilation = 1.3;
+        var curve = Curves.easeInOut;
+        // timeDilation = 1.2;
 
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
