@@ -147,9 +147,11 @@ class EditIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: (){
-      Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PopUp(item)));
+        Navigator.of(context).push(
+          PageRouteBuilder(
+              pageBuilder: (context, _, __) => PopUp(item), opaque: false
+          ),
+        );
     // );
     //     createAlertDialog(item, context).then((onValue) {
     //       print(onValue);

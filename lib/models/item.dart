@@ -11,13 +11,14 @@ class Item {
   String id;
   String title;
   String description;
-  double latitude;
-  double longitude;
+  String latitude;
+  String longitude;
   String category;
   List<String> images;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
+  Map<String, dynamic> toJsonWithoutImages() => _$ItemToJson(this);
 
 }
