@@ -1,14 +1,16 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
+import 'api_requests/items.dart';
 import 'text.dart';
 import 'general_widgets.dart';
 import 'google_maps.dart';
 import 'models/item.dart';
 
 class DetailPage extends StatelessWidget {
-
   DetailPage(this.item);
+
   Item item;
 
   @override
@@ -35,6 +37,7 @@ class PhotoRow extends StatelessWidget {
   PhotoRow(this.item);
 
   Item item;
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -49,7 +52,7 @@ class PhotoRow extends StatelessWidget {
             Box,
             DetailSubtitle("Photos:"),
             SampleImage,
-            EditIcon(item)
+            EditIcon(item, null),
           ],
         ));
   }
@@ -59,6 +62,7 @@ class InfoRow extends StatelessWidget {
   InfoRow(this.item);
 
   Item item;
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -72,8 +76,9 @@ class InfoRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Information:"),
-            EditIcon(item),
-            DetailInformation("brand", item.description, item.category, "model"),
+            EditIcon(item, PopUp(item)),
+            DetailInformation(
+                "brand", item.description, item.category, "model"),
             // SampleImage,
           ],
         ));
@@ -82,7 +87,9 @@ class InfoRow extends StatelessWidget {
 
 class MapRow extends StatelessWidget {
   MapRow(this.item);
+
   Item item;
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -96,7 +103,7 @@ class MapRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Location:"),
-            EditIcon(item),
+            EditIcon(item, null),
             // MapSampleState(),
           ],
         ));
@@ -107,15 +114,14 @@ final SampleImage = new Container(
   margin: new EdgeInsets.only(top: 5.0),
   alignment: FractionalOffset.center,
   child: ClipRRect(
-    borderRadius: BorderRadius.circular(8.0),
-    child: new Image(
-      image: new AssetImage("assets/img/flower.jpg"),
-      height: 200.0,
-    // width: BoxFit.fitWidth,
-    // fit: BoxFit.fitWidth,
-    // width: 92.0,
-    )
-  ),
+      borderRadius: BorderRadius.circular(8.0),
+      child: new Image(
+        image: new AssetImage("assets/img/flower.jpg"),
+        height: 200.0,
+        // width: BoxFit.fitWidth,
+        // fit: BoxFit.fitWidth,
+        // width: 92.0,
+      )),
 );
 
 final Box = new Container(
@@ -135,37 +141,51 @@ final Box = new Container(
   ),
 );
 
-
-
 class EditIcon extends StatelessWidget {
   Item item;
-  // Widget Function() redirection,
+  Widget redirection;
 
-  EditIcon(this.item, {Key key}) : super(key: key);
+  EditIcon(this.item, this.redirection, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
-      onTap: (){
-        Navigator.of(context).push(
-          PageRouteBuilder(
-              pageBuilder: (context, _, __) => PopUp(item), opaque: false
+        onTap: () {
+          Navigator.of(context).push(popUpRoute(redirection)).then((result) {
+            if (result != null) {
+              item = result;
+              updateLostItem(item);
+            }
+          });
+        },
+        child: Container(
+          alignment: FractionalOffset.topRight,
+          margin: new EdgeInsets.only(right: 5.0, top: 5.0),
+          child: Icon(
+            Icons.edit,
+            color: Colors.grey,
+            size: 20.0,
           ),
-        );
-    // );
-    //     createAlertDialog(item, context).then((onValue) {
-    //       print(onValue);
-    //     });
-      },
-      child:Container(
-        alignment: FractionalOffset.topRight,
-        margin: new EdgeInsets.only(right: 5.0, top: 5.0),
-        child: Icon(
-          Icons.edit,
-          color: Colors.grey,
-          size: 20.0,
-        ),
-      )
-    );
+        ));
   }
+}
+
+Route popUpRoute(Widget page) {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      opaque: false,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        timeDilation = 1.3;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

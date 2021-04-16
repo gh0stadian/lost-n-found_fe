@@ -110,8 +110,8 @@ class _PopUpState extends State<PopUp> {
                   item.title = titleController.text;
                   item.description = descriptionController.text;
                   item.category = selectedCategory;
-                  updateLostItem(item);
-                  Navigator.of(context).pop();
+                  // updateLostItem(item);
+                  Navigator.of(context).pop(item);
                 },
               ),
             ],
