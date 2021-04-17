@@ -155,7 +155,7 @@ class EditIcon extends StatelessWidget {
           Navigator.of(context).push(popUpRoute(redirection)).then((result) {
             if (result != null) {
               item = result;
-              updateLostItem(item);
+              updateItem(item, 'lost');
             }
           });
         },

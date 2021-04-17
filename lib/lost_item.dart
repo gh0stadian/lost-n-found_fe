@@ -39,7 +39,7 @@ class _ItemColState extends State<ItemCol> {
   List<Item> items;
 
   refresh() {
-    fetchLostItems().then((value) {
+    fetchItems('lost').then((value) {
       setState(() {
         items = value;
       });
