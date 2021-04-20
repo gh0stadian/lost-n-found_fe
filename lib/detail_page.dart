@@ -34,10 +34,33 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-class PhotoRow extends StatelessWidget {
+class PhotoRow extends StatefulWidget {
   PhotoRow(this.item);
 
   Item item;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _PhotoRowState(item);
+  }
+}
+
+class _PhotoRowState extends State<PhotoRow> {
+  _PhotoRowState(this.item);
+
+  Item item;
+
+  refreshItem(newItem) {
+    setState(() {
+      this.item = newItem;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    refreshItem(this.item);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +76,39 @@ class PhotoRow extends StatelessWidget {
             Box,
             DetailSubtitle("Photos:"),
             SampleImage,
-            EditIcon(item, editPhotosPopUp()),
+            EditIcon(refreshItem, item, editPhotosPopUp()),
           ],
         ));
   }
 }
 
-class InfoRow extends StatelessWidget {
+class InfoRow extends StatefulWidget {
   InfoRow(this.item);
 
   Item item;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _InfoRowState(item);
+  }
+}
+
+class _InfoRowState extends State<InfoRow> {
+  _InfoRowState(this.item);
+
+  Item item;
+
+  refreshItem(newItem) {
+    setState(() {
+      this.item = newItem;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    refreshItem(this.item);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +123,7 @@ class InfoRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Information:"),
-            EditIcon(item, PopUp(item)),
+            EditIcon(refreshItem, item, PopUp(item)),
             DetailInformation(
                 "brand", item.description, item.category, "model"),
             // SampleImage,
@@ -86,10 +132,36 @@ class InfoRow extends StatelessWidget {
   }
 }
 
-class MapRow extends StatelessWidget {
+
+class MapRow extends StatefulWidget {
   MapRow(this.item);
 
   Item item;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MapRowState(item);
+  }
+
+
+}
+
+class _MapRowState extends State<MapRow> {
+  _MapRowState(this.item);
+
+  Item item;
+
+  refreshItem(newItem) {
+    setState(() {
+      this.item = newItem;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    refreshItem(this.item);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +176,7 @@ class MapRow extends StatelessWidget {
           children: <Widget>[
             Box,
             DetailSubtitle("Location:"),
-            EditIcon(item, null),
+            EditIcon(refreshItem, item, null),
             // MapSampleState(),
           ],
         ));
@@ -146,7 +218,10 @@ class EditIcon extends StatelessWidget {
   Item item;
   Widget redirection;
 
-  EditIcon(this.item, this.redirection, {Key key}) : super(key: key);
+  EditIcon(this.refreshCallback, this.item, this.redirection, {Key key})
+      : super(key: key);
+
+  Function refreshCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +231,7 @@ class EditIcon extends StatelessWidget {
             if (result != null) {
               item = result;
               updateLostItem(item);
+              refreshCallback(item);
             }
           });
         },

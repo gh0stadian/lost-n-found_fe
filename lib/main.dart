@@ -6,6 +6,7 @@ import 'detail_page.dart';
 import 'lost_item.dart';
 import 'dart:async';
 import 'pop_ups/edit_info.dart';
+import 'google_auth.dart';
 
 
 void main() {
@@ -31,8 +32,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LostItemPage(),
+      // home: LostItemPage(),
       // home: popUpPage(),
+      home: SignInDemo()
     );
   }
 }

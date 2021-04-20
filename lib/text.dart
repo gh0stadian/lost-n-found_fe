@@ -91,12 +91,9 @@ class DetailInformation extends StatelessWidget {
   final String category;
   final String model;
 
-  DetailInformation(
-      this.brand,
-      this.description,
-      this.category,
-      this.model,
-      {Key key}) : super(key: key);
+  DetailInformation(this.brand, this.description, this.category, this.model,
+      {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +119,12 @@ class DetailInformationRow extends StatelessWidget {
   final String key_value;
   final String value;
 
-  DetailInformationRow(
-      this.key_value,
-      this.value,
-      {Key key}) : super(key: key);
+  DetailInformationRow(this.key_value, this.value, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Container(
+        child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       // alignment: WrapAlignment.spaceAround, // set your alignment
       // spacing: 100,
@@ -138,11 +133,11 @@ class DetailInformationRow extends StatelessWidget {
           key_value,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 20),
-        )
+        Text(value,
+            style: TextStyle(fontSize: 20),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2)
       ],
-    );
+    ));
   }
 }
