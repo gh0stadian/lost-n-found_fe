@@ -5,12 +5,12 @@ import 'login.dart';
 import 'detail_page.dart';
 import 'lost_item.dart';
 import 'dart:async';
+import 'matches.dart';
 import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
 
 
 void main() {
-  funcThatMakesAsyncCall();
   runApp(MyApp());
 }
 
@@ -33,13 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: LostItemPage(),
-      // home: popUpPage(),
-      home: SignInDemo()
+      home: MatchesPage(),
     );
   }
-}
-
-funcThatMakesAsyncCall() {
-  var result = fetchLostItems();
-  // print(result.description);
 }

@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/item.dart';
 
-Future<List<Item>> fetchLostItems() async {
+Future<List<Item>> fetchItems(String itemType) async {
+  String url = 'api/items/'+ itemType;
   var response =
-      await http.get(Uri.http('10.0.2.2:8082', 'api/items/lost'), headers: {
+      await http.get(Uri.http('10.0.2.2:8082', url), headers: {
     'Authorization':
         'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RfdXNlcjJ'
             'AZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZjZXun9tki0M'
@@ -32,8 +33,8 @@ Future<List<Item>> fetchLostItems() async {
   }
 }
 
-Future<int> updateLostItem(Item item) async {
-  String route = 'api/items/lost/' + item.id;
+Future<int> updateItem(Item item, String itemType) async {
+  String route = 'api/items/'+ itemType + '/' + item.id;
   var response =
       await http.patch(Uri.http('10.0.2.2:8082', route),
           headers: {
@@ -46,29 +47,6 @@ Future<int> updateLostItem(Item item) async {
           body:
               json.encode(item.toJsonWithoutImages()),
           );
-  if (response.statusCode == 200) {
-    print("UPDATE OK");
-    return 0;
-  } else {
-    print("UPDATE FAILED");
-    return 1;
-  }
-}
-
-Future<int> updateFoundItem(Item item) async {
-  String route = 'api/items/found/' + item.id;
-  var response =
-  await http.patch(Uri.http('10.0.2.2:8082', route),
-    headers: {
-      'Authorization':
-      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3'
-          'RfdXNlcjJAZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZ'
-          'jZXun9tki0M',
-      HttpHeaders.contentTypeHeader: 'application/json',
-    },
-    body:
-    json.encode(item.toJsonWithoutImages()),
-  );
   if (response.statusCode == 200) {
     print("UPDATE OK");
     return 0;

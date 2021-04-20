@@ -85,6 +85,46 @@ class ItemTitle extends StatelessWidget {
   }
 }
 
+Shader linearGradient(double percentage){
+  Color color1;
+  Color color2;
+  if (percentage > 90) {
+    color1 = Color(0xFF76FF03);
+    color2 = Color(0xFF00e676);
+  }
+  else if (percentage <= 80 && percentage > 60){
+    color1 = Color(0xFF76FF03);
+    color2 = Color(0xFFFFEA00);
+  }
+  else {
+    color1 = Color(0xFFFFEA00);
+    color2 = Color(0xFFFF3D00);
+  }
+
+  return LinearGradient(
+    colors: <Color>[color1, color2],
+  ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+}
+
+class MatchPercentage extends StatelessWidget {
+  final double percentage;
+  MatchPercentage(this.percentage, {Key key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      alignment: FractionalOffset.topLeft,
+      margin: new EdgeInsets.only(left: 10, top: 15),
+      child: Text(
+        percentage.toStringAsFixed(0) + "% Match",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+            foreground: Paint()..shader = linearGradient(percentage)),
+      ),
+    );
+  }
+}
+
 class DetailInformation extends StatelessWidget {
   final String brand;
   final String description;
