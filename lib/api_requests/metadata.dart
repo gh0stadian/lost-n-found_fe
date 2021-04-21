@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../auth.dart';
 
 Future<List<String>> fetchCategories() async {
-  var response = await http.get(Uri.http('10.0.2.2:8082', 'api/metadata'), headers: {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RfdXNlcjJAZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZjZXun9tki0M'});
+  var response = await http.get(
+      Uri.http(GlobalData.serverAddress, 'api/metadata'),
+      headers: {'Authorization': GlobalData.jwt});
   if (response.statusCode == 200) {
     List<String> categories = [];
     Map decoded = jsonDecode(response.body);

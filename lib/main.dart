@@ -32,8 +32,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      home: LoginScreen(),
       // home: LostItemPage(),
-      home: MatchesPage(),
+      // home: MatchesPage(),
     );
   }
 }

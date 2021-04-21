@@ -4,15 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/item.dart';
+import '../auth.dart';
 
 Future<List<Item>> fetchItems(String itemType) async {
-  String url = 'api/items/'+ itemType;
-  var response =
-      await http.get(Uri.http('10.0.2.2:8082', url), headers: {
-    'Authorization':
-        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RfdXNlcjJ'
-            'AZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZjZXun9tki0M'
-  });
+  String url = 'api/items/' + itemType;
+  var response = await http.get(Uri.http(GlobalData.serverAddress, url),
+      headers: {'Authorization': GlobalData.jwt});
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -34,19 +31,15 @@ Future<List<Item>> fetchItems(String itemType) async {
 }
 
 Future<int> updateItem(Item item, String itemType) async {
-  String route = 'api/items/'+ itemType + '/' + item.id;
-  var response =
-      await http.patch(Uri.http('10.0.2.2:8082', route),
-          headers: {
-            'Authorization':
-                'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3'
-                    'RfdXNlcjJAZW1haWwuY29tIn0.WSMhA8rUyCYvufxG174DkAsGCUMSyqaZ'
-                    'jZXun9tki0M',
-            HttpHeaders.contentTypeHeader: 'application/json',
-          },
-          body:
-              json.encode(item.toJsonWithoutImages()),
-          );
+  String route = 'api/items/' + itemType + '/' + item.id;
+  var response = await http.patch(
+    Uri.http(GlobalData.serverAddress, route),
+    headers: {
+      'Authorization': GlobalData.jwt,
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body: json.encode(item.toJsonWithoutImages()),
+  );
   if (response.statusCode == 200) {
     print("UPDATE OK");
     return 0;
@@ -55,4 +48,3 @@ Future<int> updateItem(Item item, String itemType) async {
     return 1;
   }
 }
-
