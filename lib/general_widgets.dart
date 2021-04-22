@@ -20,6 +20,10 @@ class CustomTopBar extends StatelessWidget with PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.white,
       bottomOpacity: 0.0,
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.blue),
+      ),
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: Colors.black),
         onPressed: () => Navigator.of(context).pop(),
@@ -138,3 +142,4 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
     );
   }
 }
+

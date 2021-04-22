@@ -1,6 +1,8 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
 import 'api_requests/items.dart';
@@ -10,8 +12,9 @@ import 'google_maps.dart';
 import 'models/item.dart';
 
 class DetailPage extends StatelessWidget {
-  DetailPage(this.item);
+  DetailPage(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   @override
@@ -23,9 +26,9 @@ class DetailPage extends StatelessWidget {
         child: new Column(
           children: <Widget>[
             new DetailHeading(item.title),
-            new PhotoRow(item),
-            new InfoRow(item),
-            new MapRow(item),
+            new PhotoRow(item, itemType),
+            new InfoRow(item, itemType),
+            new MapRow(item, itemType),
           ],
         ),
       ),
@@ -34,19 +37,21 @@ class DetailPage extends StatelessWidget {
 }
 
 class PhotoRow extends StatefulWidget {
-  PhotoRow(this.item);
+  PhotoRow(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   @override
   State<StatefulWidget> createState() {
-    return _PhotoRowState(item);
+    return _PhotoRowState(item, itemType);
   }
 }
 
 class _PhotoRowState extends State<PhotoRow> {
-  _PhotoRowState(this.item);
+  _PhotoRowState(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   refreshItem(newItem) {
@@ -75,26 +80,29 @@ class _PhotoRowState extends State<PhotoRow> {
             Box,
             DetailSubtitle("Photos:"),
             SampleImage,
-            EditIcon(refreshItem, item, editPhotosPopUp()),
+            EditIcon(refreshItem, item, itemType,
+                redirection: editPhotosPopUp()),
           ],
         ));
   }
 }
 
 class InfoRow extends StatefulWidget {
-  InfoRow(this.item);
+  InfoRow(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   @override
   State<StatefulWidget> createState() {
-    return _InfoRowState(item);
+    return _InfoRowState(item, itemType);
   }
 }
 
 class _InfoRowState extends State<InfoRow> {
-  _InfoRowState(this.item);
+  _InfoRowState(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   refreshItem(newItem) {
@@ -122,7 +130,7 @@ class _InfoRowState extends State<InfoRow> {
           children: <Widget>[
             Box,
             DetailSubtitle("Information:"),
-            EditIcon(refreshItem, item, PopUp(item)),
+            EditIcon(refreshItem, item, itemType, redirection: PopUp(item)),
             DetailInformation(
                 "brand", item.description, item.category, "model"),
             // SampleImage,
@@ -131,23 +139,22 @@ class _InfoRowState extends State<InfoRow> {
   }
 }
 
-
 class MapRow extends StatefulWidget {
-  MapRow(this.item);
+  MapRow(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   @override
   State<StatefulWidget> createState() {
-    return _MapRowState(item);
+    return _MapRowState(item, itemType);
   }
-
-
 }
 
 class _MapRowState extends State<MapRow> {
-  _MapRowState(this.item);
+  _MapRowState(this.item, this.itemType);
 
+  String itemType;
   Item item;
 
   refreshItem(newItem) {
@@ -173,9 +180,13 @@ class _MapRowState extends State<MapRow> {
         alignment: FractionalOffset.topCenter,
         child: new Stack(
           children: <Widget>[
-            Box,
+            Map(
+              key: UniqueKey(),
+              lat: item.latitude,
+              long: item.longitude,
+            ),
             DetailSubtitle("Location:"),
-            EditIcon(refreshItem, item, null),
+            EditIcon(refreshItem, item, itemType),
             // MapSampleState(),
           ],
         ));
@@ -215,9 +226,11 @@ final Box = new Container(
 
 class EditIcon extends StatelessWidget {
   Item item;
+  String itemType;
   Widget redirection;
 
-  EditIcon(this.refreshCallback, this.item, this.redirection, {Key key})
+  EditIcon(this.refreshCallback, this.item, this.itemType,
+      {Key key, this.redirection})
       : super(key: key);
 
   Function refreshCallback;
@@ -226,13 +239,26 @@ class EditIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GestureDetector(
         onTap: () {
-          Navigator.of(context).push(popUpRoute(redirection)).then((result) {
-            if (result != null) {
-              item = result;
-              updateItem(item, 'lost');
-              refreshCallback(item);
-            }
-          });
+          if (redirection != null) {
+            Navigator.of(context).push(popUpRoute(redirection)).then((result) {
+              if (result != null) {
+                item = result;
+                updateItem(item, itemType)
+                    .then((value) => refreshCallback(item));
+              }
+            });
+          } else {
+            LocationResult result;
+            showLocationPicker(
+                    context, "AIzaSyASTtgffep6qfXoQ_S_dIsRvaPVIlYVEfM",
+                    initialCenter: LatLng(item.latitude, item.longitude))
+                .then((value) {
+              result = value;
+              item.latitude = result.latLng.latitude;
+              item.longitude = result.latLng.longitude;
+              updateItem(item, itemType).then((value) => refreshCallback(item));
+            });
+          }
         },
         child: Container(
           alignment: FractionalOffset.topRight,

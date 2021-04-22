@@ -8,10 +8,17 @@ import 'dart:async';
 import 'matches.dart';
 import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_map_location_picker/generated/l10n.dart'
+    as location_picker;
+import 'package:load/load.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(LoadingProvider(
+    child: MyApp(),
+    themeData: LoadingThemeData(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +26,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        location_picker.S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('en'),
+      ],
       title: 'Lost&Found',
       theme: ThemeData(
         // This is the theme of your application.
