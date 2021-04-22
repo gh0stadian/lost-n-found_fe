@@ -8,10 +8,13 @@ import 'dart:async';
 import 'matches.dart';
 import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
-
+import 'package:load/load.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(LoadingProvider(
+    child: MyApp(),
+    themeData: LoadingThemeData(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
