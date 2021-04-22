@@ -85,18 +85,16 @@ class ItemTitle extends StatelessWidget {
   }
 }
 
-Shader linearGradient(double percentage){
+Shader linearGradient(double percentage) {
   Color color1;
   Color color2;
   if (percentage > 90) {
     color1 = Color(0xFF76FF03);
     color2 = Color(0xFF00e676);
-  }
-  else if (percentage <= 80 && percentage > 60){
+  } else if (percentage <= 80 && percentage > 60) {
     color1 = Color(0xFF76FF03);
     color2 = Color(0xFFFFEA00);
-  }
-  else {
+  } else {
     color1 = Color(0xFFFFEA00);
     color2 = Color(0xFFFF3D00);
   }
@@ -108,7 +106,9 @@ Shader linearGradient(double percentage){
 
 class MatchPercentage extends StatelessWidget {
   final double percentage;
+
   MatchPercentage(this.percentage, {Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -165,20 +165,21 @@ class DetailInformationRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       // alignment: WrapAlignment.spaceAround, // set your alignment
       // spacing: 100,
       children: [
-        Text(
+        Expanded(
+            child: Text(
           key_value,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-        Spacer(),
-        Expanded(
-          child: Text(value,
-            style: TextStyle(fontSize: 20),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3))
+        )),
+        // Spacer(),
+        Flexible(
+            child: Text(value,
+                style: TextStyle(fontSize: 18),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3))
       ],
     ));
   }
