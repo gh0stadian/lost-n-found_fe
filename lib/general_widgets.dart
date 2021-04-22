@@ -7,19 +7,25 @@ class CustomTopBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
 
   CustomTopBar(
-      this.title,
-      { Key key,}) : preferredSize = Size.fromHeight(50.0),
+    this.title, {
+    Key key,
+  })  : preferredSize = Size.fromHeight(50.0),
         super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        bottomOpacity: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      bottomOpacity: 0.0,
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.blue),
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.black),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
     );
   }
 }
@@ -34,7 +40,7 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -45,15 +51,17 @@ class _NavigationBarState extends State<NavigationBar> {
       style: optionStyle,
     ),
   ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem> [
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Matches',
@@ -70,17 +78,18 @@ class _NavigationBarState extends State<NavigationBar> {
       onTap: _onItemTapped,
     );
   }
-
 }
-
 
 class matchesTopBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   String phoneNumber;
 
-  matchesTopBar(this.phoneNumber,
-      { Key key,}): preferredSize = Size.fromHeight(50.0), super(key: key);
+  matchesTopBar(
+    this.phoneNumber, {
+    Key key,
+  })  : preferredSize = Size.fromHeight(50.0),
+        super(key: key);
 
   _makePhoneCall(String number) async {
     String url = "tel:" + number;
@@ -114,12 +123,18 @@ class matchesTopBar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.sms, color: Colors.black,),
-          onPressed: () =>  _writeSms(phoneNumber),
+          icon: Icon(
+            Icons.sms,
+            color: Colors.black,
+          ),
+          onPressed: () => _writeSms(phoneNumber),
         ),
         IconButton(
-            icon: Icon(Icons.call, color: Colors.black,),
-            onPressed: () =>  _makePhoneCall(phoneNumber),
+          icon: Icon(
+            Icons.call,
+            color: Colors.black,
+          ),
+          onPressed: () => _makePhoneCall(phoneNumber),
         )
       ],
     );

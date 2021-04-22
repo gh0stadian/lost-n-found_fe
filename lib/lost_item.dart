@@ -91,7 +91,7 @@ class ItemRow extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DetailPage(item)),
+                MaterialPageRoute(builder: (context) => DetailPage(item, "lost")),
               ).then((value) => refreshCallback());
             },
             child: new Stack(

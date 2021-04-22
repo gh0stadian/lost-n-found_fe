@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:load/load.dart';
+import 'package:lost_and_found_ui/lost_item.dart';
 import 'matches.dart';
 import 'auth.dart';
 import 'package:flash/flash.dart';
@@ -132,7 +133,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: CustomTopBar("Register"),
+        appBar: CustomTopBar("Registration"),
         backgroundColor: Colors.blue,
         // bottomNavigationBar: ,
         body: RegistrationForm());
@@ -161,7 +162,7 @@ class LoginScreen extends StatelessWidget {
       onSubmitAnimationCompleted: () {
         if (GlobalData.userExists) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => MatchesPage(),
+            builder: (context) => LostItemPage(),
           ));
         } else {
           Navigator.of(context).pushReplacement(
