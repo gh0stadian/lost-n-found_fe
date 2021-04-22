@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/matches_detail.dart';
 import 'package:lost_and_found_ui/text.dart';
 import 'models/match.dart';
 import 'api_requests/matches.dart';
@@ -10,13 +11,17 @@ class MatchesPage extends StatelessWidget {
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
       // bottomNavigationBar: ,
-      body: SingleChildScrollView(
-        child: new Column(
-          children: <Widget>[
-            new Heading("Matches"),
-            new MatchCol(),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          new Heading("Matches"),
+          new MatchCol(),
+        ],
+        // child: new Column(
+        //   children: <Widget>[
+        //     new Heading("Matches"),
+        //     new MatchCol(),
+          // ],
+        // ),
       ),
     );
   }
@@ -50,9 +55,10 @@ class _MatchColState extends State<MatchCol> {
   Widget build(BuildContext context) {
     if (matches != null) {
       return Container(
-          height: 1200,
+          height: 800,
           child: ListView.builder(
               itemCount: matches.length,
+              physics:  const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return MatchRow(matches[index], refresh);
               }));
@@ -78,10 +84,10 @@ class MatchRow extends StatelessWidget {
         ),
         child: new GestureDetector(
             onTap: () {
-              // Navigator.push(
-              // context,
-              // MaterialPageRoute(builder: (context) => DetailPage(item)),
-              // ).then((value) => refreshCallback());
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => matchesDetailPage(match)),
+              ).then((value) => refreshCallback());
             },
             child: new Stack(
               children: <Widget>[

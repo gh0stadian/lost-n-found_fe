@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
 
+
 class GlobalData {
   static var jwt;
-  static String serverAddress = '192.168.0.173:8082';
+  static String serverAddress = '10.0.2.2:8082';
   static String uid;
   static bool userExists = false;
 }
