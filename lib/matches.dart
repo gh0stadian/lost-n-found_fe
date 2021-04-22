@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/general_widgets.dart';
 import 'package:lost_and_found_ui/matches_detail.dart';
 import 'package:lost_and_found_ui/text.dart';
 import 'models/match.dart';
@@ -10,7 +11,7 @@ class MatchesPage extends StatelessWidget {
     return new Scaffold(
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
-      // bottomNavigationBar: ,
+      bottomNavigationBar: customBottomNavigationBar(0),
       body: ListView(
         children: <Widget>[
           new Heading("Matches"),

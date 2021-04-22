@@ -9,9 +9,11 @@ import 'general_widgets.dart';
 import 'google_maps.dart';
 import 'models/item.dart';
 import 'models/match.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class matchesDetailPage extends StatelessWidget {
   Match match;
+
   matchesDetailPage(this.match);
 
   @override
@@ -19,7 +21,14 @@ class matchesDetailPage extends StatelessWidget {
     return new Scaffold(
       appBar: matchesTopBar("0915641892"),
       backgroundColor: Colors.white,
-      // bottomNavigationBar: ,
+      floatingActionButton: matchSpeedDial,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // ADD CALL TO UPDATE MATCH
+      //   },
+      //   child: Icon(Icons.done),
+      //   backgroundColor: Colors.green,
+      // ),
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[
@@ -33,7 +42,6 @@ class matchesDetailPage extends StatelessWidget {
     );
   }
 }
-
 
 class PhotoRow extends StatefulWidget {
   PhotoRow(this.item, this.heading);
@@ -101,7 +109,6 @@ final Box = new Container(
   ),
 );
 
-
 final SampleImage = new Container(
   margin: new EdgeInsets.only(top: 5.0),
   alignment: FractionalOffset.center,
@@ -114,4 +121,41 @@ final SampleImage = new Container(
         // fit: BoxFit.fitWidth,
         // width: 92.0,
       )),
+);
+
+final matchSpeedDial = new SpeedDial(
+  marginEnd: 18,
+  marginBottom: 20,
+  animatedIcon: AnimatedIcons.menu_arrow,
+  animatedIconTheme: IconThemeData(size: 28.0),
+  visible: true,
+  closeManually: false,
+  renderOverlay: false,
+  curve: Curves.bounceIn,
+  overlayColor: Colors.black,
+  overlayOpacity: 0.5,
+  tooltip: 'Speed Dial',
+  heroTag: 'speed-dial-hero-tag',
+  backgroundColor: Colors.lightBlue,
+  foregroundColor: Colors.black,
+  elevation: 8.0,
+  shape: CircleBorder(),
+  children: [
+    SpeedDialChild(
+      child: Icon(Icons.done),
+      backgroundColor: Colors.green,
+      label: 'Mark resolved',
+      labelStyle: TextStyle(fontSize: 18.0),
+      onTap: () => print('Accept match pressed'),
+      onLongPress: () => print('FIRST CHILD LONG PRESS'),
+    ),
+    SpeedDialChild(
+      child: Icon(Icons.close),
+      backgroundColor: Colors.red,
+      label: 'Not a match',
+      labelStyle: TextStyle(fontSize: 18.0),
+      onTap: () => print('Decline match pressed'),
+      onLongPress: () => print('THIRD CHILD LONG PRESS'),
+    ),
+  ],
 );

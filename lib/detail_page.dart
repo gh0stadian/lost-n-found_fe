@@ -19,7 +19,6 @@ class DetailPage extends StatelessWidget {
     return new Scaffold(
       appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
-      // bottomNavigationBar: ,
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[

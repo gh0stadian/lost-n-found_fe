@@ -14,7 +14,7 @@ class LostItemPage extends StatelessWidget {
     return new Scaffold(
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
-      // bottomNavigationBar: ,
+      bottomNavigationBar: customBottomNavigationBar(1),
       body: SingleChildScrollView(
         child: new Column(
           children: <Widget>[

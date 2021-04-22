@@ -165,7 +165,7 @@ class DetailInformationRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       // alignment: WrapAlignment.spaceAround, // set your alignment
       // spacing: 100,
       children: [
@@ -173,10 +173,12 @@ class DetailInformationRow extends StatelessWidget {
           key_value,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        Text(value,
+        Spacer(),
+        Expanded(
+          child: Text(value,
             style: TextStyle(fontSize: 20),
             overflow: TextOverflow.ellipsis,
-            maxLines: 2)
+            maxLines: 3))
       ],
     ));
   }
