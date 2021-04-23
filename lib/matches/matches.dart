@@ -40,11 +40,13 @@ class MatchCol extends StatefulWidget {
 
 class _MatchColState extends State<MatchCol> {
   List<Match> matches;
+  bool fetched = false;
 
   refresh() {
     fetchMatches().then((value) {
       setState(() {
         matches = value;
+        fetched = true;
       });
     });
   }
@@ -59,14 +61,15 @@ class _MatchColState extends State<MatchCol> {
   Widget build(BuildContext context) {
     if (matches != null) {
       return Container(
-          height: 800,
+          // height: 800,
           child: ListView.builder(
+              shrinkWrap: true,
               itemCount: matches.length,
               physics:  const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return MatchRow(matches[index], refresh);
               }));
-    } else {
+    } else if (fetched && matches.length == 0){
       return Container(
         height: 500,
         alignment: Alignment.center,
@@ -80,6 +83,14 @@ class _MatchColState extends State<MatchCol> {
           style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
         ),
         // )
+      );
+    }
+    else {
+      return Container(
+          height: 500,
+          child: Center(
+            child: CircularProgressIndicator(),
+          )
       );
     }
   }

@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'api_requests/items.dart';
 import 'auth.dart';
 import 'text.dart';
@@ -83,7 +85,8 @@ class _PhotoRowState extends State<PhotoRow> {
           children: <Widget>[
             Box,
             DetailSubtitle("Photos:"),
-            ItemThumbnail(item),
+            // ItemThumbnail(item),
+            Gallery(item),
             EditIcon(refreshItem, item, itemType,
                 redirection: editPhotosPopUp()),
           ],
@@ -197,20 +200,32 @@ class _MapRowState extends State<MapRow> {
   }
 }
 
-class ItemThumbnail extends StatelessWidget {
-  ItemThumbnail(this.item);
-
+class Gallery extends StatefulWidget {
   Item item;
 
-  getImage(Item item){
-    if (item.images.length == 0) {
+  // List<Image> loadedImages;
+
+  Gallery(this.item);
+
+  @override
+  State<StatefulWidget> createState() => _GalleryState();
+}
+
+class _GalleryState extends State<Gallery> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  getImage(int index){
+    if (widget.item.images.length == 0) {
       print("Loading asset");
       return AssetImage('assets/img/default.jpg');
     }
     else {
       return NetworkImage(
         'http://${GlobalData.serverAddress}/api/files/download/'
-            '${item.id}/${item.images[0]}',
+            '${widget.item.id}/${widget.item.images[index]}',
         headers: {'Authorization': GlobalData.jwt},
       );
     }
@@ -218,22 +233,76 @@ class ItemThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int listLength = widget.item.images.length;
+
+    if (listLength == 0){
+      listLength = 1;
+    }
     return Container(
-      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 50),
-      alignment: FractionalOffset.topCenter,
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: new Image(
-            image: getImage(item),
-            // height: 200.0,
-            // width: BoxFit.fitWidth,
-            fit: BoxFit.contain,
-            // width: 92.0,
-          )
-      ),
-    );
+        margin: new EdgeInsets.only(top: 30.0, right: 20, left: 20, bottom:10),
+        alignment: FractionalOffset.center,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: (BuildContext context, int index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: getImage(index),
+                  initialScale: PhotoViewComputedScale.contained,
+                );
+              },
+              itemCount: listLength,
+              loadingBuilder: (context, event) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              backgroundDecoration: BoxDecoration(color: Colors.white),
+              // pageController: widget.pageController,
+              // onPageChanged: onPageChanged,
+            )));
   }
 }
+
+// class ItemThumbnail extends StatelessWidget {
+//   ItemThumbnail(this.item);
+//
+//   Item item;
+//
+//   getImage(Item item){
+//     if (item.images.length == 0) {
+//       print("Loading asset");
+//       return AssetImage('assets/img/default.jpg');
+//     }
+//     else {
+//       return NetworkImage(
+//         'http://${GlobalData.serverAddress}/api/files/download/'
+//             '${item.id}/${item.images[0]}',
+//         headers: {'Authorization': GlobalData.jwt},
+//       );
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: new EdgeInsets.only(left: 20.0, right: 20, top: 50),
+//       alignment: FractionalOffset.topCenter,
+//       child: ClipRRect(
+//           borderRadius: BorderRadius.circular(8.0),
+//           child: new Image(
+//             image: getImage(item),
+//             // height: 200.0,
+//             // width: BoxFit.fitWidth,
+//             fit: BoxFit.contain,
+//             // width: 92.0,
+//           )
+//       ),
+//     );
+//   }
+// }
 
 final Box = new Container(
   height: 250.0,

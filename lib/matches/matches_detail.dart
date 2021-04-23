@@ -111,10 +111,6 @@ class _GalleryState extends State<Gallery> {
   @override
   initState() {
     super.initState();
-    // if (widget.item.images.length == 0){
-    //   widget.item.images[0] = "6b42759d-83e6-47b3-beec-347d09c2eead.png"
-    //   ;
-    // }
   }
   
   getImage(int index){
@@ -185,19 +181,6 @@ final Box = new Container(
   ),
 );
 
-final SampleImage = new Container(
-  margin: new EdgeInsets.only(top: 5.0),
-  alignment: FractionalOffset.center,
-  child: ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: new Image(
-        image: new AssetImage("assets/img/flower.jpg"),
-        height: 200.0,
-        // width: BoxFit.fitWidth,
-        // fit: BoxFit.fitWidth,
-        // width: 92.0,
-      )),
-);
 
 final matchSpeedDial = new SpeedDial(
   marginEnd: 18,

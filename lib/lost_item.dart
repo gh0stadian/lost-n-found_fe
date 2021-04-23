@@ -36,11 +36,13 @@ class ItemCol extends StatefulWidget {
 
 class _ItemColState extends State<ItemCol> {
   List<Item> items;
+  bool fetched = false;
 
   refresh() {
     fetchItems('lost').then((value) {
       setState(() {
         items = value;
+        fetched = true;
       });
     });
   }
@@ -56,15 +58,17 @@ class _ItemColState extends State<ItemCol> {
   Widget build(BuildContext context) {
     if (items != null) {
       return Container(
-        height: 1200,
+        // height: 1200,
           child: ListView.builder(
+              shrinkWrap: true,
               itemCount: items.length,
+              physics:  const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ItemRow(items[index], refresh);
               }
               )
       );
-    } else {
+    } else if (fetched && items.length == 0){
       return Container(
           height: 500,
           alignment: Alignment.center,
@@ -78,6 +82,14 @@ class _ItemColState extends State<ItemCol> {
               style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
             ),
           // )
+      );
+    }
+    else {
+      return Container(
+        height: 500,
+        child: Center(
+          child: CircularProgressIndicator(),
+        )
       );
     }
   }
