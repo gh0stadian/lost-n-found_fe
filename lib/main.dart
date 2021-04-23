@@ -5,13 +5,15 @@ import 'login.dart';
 import 'detail_page.dart';
 import 'lost_item.dart';
 import 'dart:async';
-import 'matches.dart';
+import 'matches/matches.dart';
 import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_map_location_picker/generated/l10n.dart'
-    as location_picker;
+
+// TODO UNCOMMENT
+// import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:google_map_location_picker/generated/l10n.dart'
+//     as location_picker;
 import 'package:load/load.dart';
 
 void main() {
@@ -27,10 +29,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: const [
-        location_picker.S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        // TODO UNCOMMENT
+        // location_picker.S.delegate,
+        // GlobalMaterialLocalizations.delegate,
+        // GlobalWidgetsLocalizations.delegate,
+        // GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const <Locale>[
         Locale('en'),

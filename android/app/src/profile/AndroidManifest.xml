@@ -2,6 +2,7 @@
     package="com.example.lost_and_found_ui">
     <application
             android:usesCleartextTraffic="true"
+            android:requestLegacyExternalStorage="true"
     />
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.

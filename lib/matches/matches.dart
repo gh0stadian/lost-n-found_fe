@@ -1,9 +1,12 @@
+import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/general_widgets.dart';
-import 'package:lost_and_found_ui/matches_detail.dart';
+import 'package:lost_and_found_ui/models/item.dart';
+import '../auth.dart';
+import '../matches/matches_detail.dart';
 import 'package:lost_and_found_ui/text.dart';
-import 'models/match.dart';
-import 'api_requests/matches.dart';
+import '../models/match.dart';
+import '../api_requests/matches.dart';
 
 class MatchesPage extends StatelessWidget {
   @override
@@ -64,7 +67,20 @@ class _MatchColState extends State<MatchCol> {
                 return MatchRow(matches[index], refresh);
               }));
     } else {
-      return Container(height: 220, child: ListView());
+      return Container(
+        height: 500,
+        alignment: Alignment.center,
+        // child: Center(
+        child: GradientText(
+          text: "You dont have any matches",
+          colors: <Color>[
+            Colors.blue,
+            Colors.lightBlue.shade900,
+          ],
+          style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+        ),
+        // )
+      );
     }
   }
 }
@@ -94,7 +110,7 @@ class MatchRow extends StatelessWidget {
               children: <Widget>[
                 MatchCard,
                 MatchPercentage(match.percentage),
-                MatchThumbnails(),
+                MatchThumbnails(match),
                 ItemTitle(match.lost.title),
               ],
             )));
@@ -120,6 +136,24 @@ class MatchRow extends StatelessWidget {
 
 
 class MatchThumbnails extends StatelessWidget{
+  Match match;
+
+  MatchThumbnails(this.match);
+
+  getImage(Item item){
+    if (item.images.length == 0) {
+      print("Loading asset");
+      return AssetImage('assets/img/default.jpg');
+    }
+    else {
+      return NetworkImage(
+        'http://${GlobalData.serverAddress}/api/files/download/'
+            '${item.id}/${item.images[0]}',
+        headers: {'Authorization': GlobalData.jwt},
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,7 +165,7 @@ class MatchThumbnails extends StatelessWidget{
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: new Image(
-                image: new AssetImage("assets/img/flower.jpg"),
+                image: getImage(match.lost),
                 // height: 200.0,
                 // width: 115,
                 fit: BoxFit.contain,
@@ -142,7 +176,7 @@ class MatchThumbnails extends StatelessWidget{
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: new Image(
-                image: new AssetImage("assets/img/flower.jpg"),
+                image: getImage(match.found),
                 // width: 115,
                 // fit: BoxFit.contain,
                 width: 180.0,

@@ -48,3 +48,9 @@ Future<int> updateItem(Item item, String itemType) async {
     return 1;
   }
 }
+
+// Image getImage(String id) {
+//   return Image.network(
+//
+//   )
+// }

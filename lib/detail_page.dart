@@ -1,11 +1,15 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
+
+// TODO UNCOMMENT
+// import 'package:google_map_location_picker/google_map_location_picker.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
 import 'api_requests/items.dart';
+import 'auth.dart';
 import 'text.dart';
 import 'general_widgets.dart';
 import 'google_maps.dart';
@@ -79,7 +83,7 @@ class _PhotoRowState extends State<PhotoRow> {
           children: <Widget>[
             Box,
             DetailSubtitle("Photos:"),
-            SampleImage,
+            ItemThumbnail(item),
             EditIcon(refreshItem, item, itemType,
                 redirection: editPhotosPopUp()),
           ],
@@ -193,19 +197,43 @@ class _MapRowState extends State<MapRow> {
   }
 }
 
-final SampleImage = new Container(
-  margin: new EdgeInsets.only(top: 5.0),
-  alignment: FractionalOffset.center,
-  child: ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: new Image(
-        image: new AssetImage("assets/img/flower.jpg"),
-        height: 200.0,
-        // width: BoxFit.fitWidth,
-        // fit: BoxFit.fitWidth,
-        // width: 92.0,
-      )),
-);
+class ItemThumbnail extends StatelessWidget {
+  ItemThumbnail(this.item);
+
+  Item item;
+
+  getImage(Item item){
+    if (item.images.length == 0) {
+      print("Loading asset");
+      return AssetImage('assets/img/default.jpg');
+    }
+    else {
+      return NetworkImage(
+        'http://${GlobalData.serverAddress}/api/files/download/'
+            '${item.id}/${item.images[0]}',
+        headers: {'Authorization': GlobalData.jwt},
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 50),
+      alignment: FractionalOffset.topCenter,
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: new Image(
+            image: getImage(item),
+            // height: 200.0,
+            // width: BoxFit.fitWidth,
+            fit: BoxFit.contain,
+            // width: 92.0,
+          )
+      ),
+    );
+  }
+}
 
 final Box = new Container(
   height: 250.0,
@@ -248,16 +276,17 @@ class EditIcon extends StatelessWidget {
               }
             });
           } else {
-            LocationResult result;
-            showLocationPicker(
-                    context, "AIzaSyASTtgffep6qfXoQ_S_dIsRvaPVIlYVEfM",
-                    initialCenter: LatLng(item.latitude, item.longitude))
-                .then((value) {
-              result = value;
-              item.latitude = result.latLng.latitude;
-              item.longitude = result.latLng.longitude;
-              updateItem(item, itemType).then((value) => refreshCallback(item));
-            });
+            // TODO UNCOMMENT
+            // LocationResult result;
+            // showLocationPicker(
+            //         context, "AIzaSyASTtgffep6qfXoQ_S_dIsRvaPVIlYVEfM",
+            //         initialCenter: LatLng(item.latitude, item.longitude))
+            //     .then((value) {
+            //   result = value;
+            //   item.latitude = result.latLng.latitude;
+            //   item.longitude = result.latLng.longitude;
+            //   updateItem(item, itemType).then((value) => refreshCallback(item));
+            // });
           }
         },
         child: Container(

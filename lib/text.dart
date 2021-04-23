@@ -54,7 +54,7 @@ class Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       alignment: FractionalOffset.centerLeft,
-      margin: new EdgeInsets.only(top: 40, left: 10),
+      margin: new EdgeInsets.only(top: 10, left: 10),
       child: GradientText(
         text: text,
         colors: <Color>[

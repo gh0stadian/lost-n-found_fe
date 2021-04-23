@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lost_and_found_ui/lost_item.dart';
-import 'package:lost_and_found_ui/matches.dart';
+import 'lost_item.dart';
+import 'matches/matches.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomTopBar extends StatelessWidget with PreferredSizeWidget {

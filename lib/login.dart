@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:load/load.dart';
-import 'package:lost_and_found_ui/lost_item.dart';
-import 'matches.dart';
+import 'lost_item.dart';
+import 'matches/matches.dart';
 import 'auth.dart';
 import 'package:flash/flash.dart';
 import 'general_widgets.dart';

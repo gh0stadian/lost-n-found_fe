@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart'
-    as location_picker;
+
+// TODO UNCOMMENT
+// import 'package:google_map_location_picker/google_map_location_picker.dart'
+//     as location_picker;
 
 //
 // class MapSample extends StatelessWidget {

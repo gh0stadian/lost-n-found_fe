@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'auth.dart';
 import 'detail_page.dart';
 import 'text.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
@@ -15,14 +16,12 @@ class LostItemPage extends StatelessWidget {
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
       bottomNavigationBar: customBottomNavigationBar(1),
-      body: SingleChildScrollView(
-        child: new Column(
-          children: <Widget>[
+      body: ListView(
+        children: <Widget>[
             new Heading("Lost items"),
             new ItemCol(),
           ],
         ),
-      ),
     );
   }
 }
@@ -62,12 +61,23 @@ class _ItemColState extends State<ItemCol> {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return ItemRow(items[index], refresh);
-              })
+              }
+              )
       );
     } else {
       return Container(
-        height: 200,
-          child: ListView()
+          height: 500,
+          alignment: Alignment.center,
+          // child: Center(
+            child: GradientText(
+              text: "You dont have any lost items",
+              colors: <Color>[
+                Colors.blue,
+                Colors.lightBlue.shade900,
+              ],
+              style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+            ),
+          // )
       );
     }
   }
@@ -97,7 +107,7 @@ class ItemRow extends StatelessWidget {
             child: new Stack(
               children: <Widget>[
                 ItemCard,
-                ItemThumbnail,
+                ItemThumbnail(item),
                 ItemTitle(item.title),
               ],
             )));
@@ -121,17 +131,40 @@ final ItemCard = new Container(
   ),
 );
 
-final ItemThumbnail = new Container(
-  margin: new EdgeInsets.symmetric(vertical: 0.0),
-  alignment: FractionalOffset.topCenter,
-  child: ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: new Image(
-        image: new AssetImage("assets/img/flower.jpg"),
-        height: 200.0,
-        // width: BoxFit.fitWidth,
-        // fit: BoxFit.fitWidth,
-        // width: 92.0,
-      )
-  ),
-);
+class ItemThumbnail extends StatelessWidget {
+  ItemThumbnail(this.item);
+
+  Item item;
+
+  getImage(Item item){
+    if (item.images.length == 0) {
+      print("Loading asset");
+      return AssetImage('assets/img/default.jpg');
+    }
+    else {
+      return NetworkImage(
+        'http://${GlobalData.serverAddress}/api/files/download/'
+            '${item.id}/${item.images[0]}',
+        headers: {'Authorization': GlobalData.jwt},
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 10),
+      alignment: FractionalOffset.topCenter,
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: new Image(
+            image: getImage(item),
+            // height: 200.0,
+            // width: BoxFit.fitWidth,
+            fit: BoxFit.contain,
+            // width: 92.0,
+          )
+      ),
+    );
+  }
+}

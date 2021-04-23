@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
-import 'api_requests/items.dart';
-import 'text.dart';
-import 'general_widgets.dart';
-import 'google_maps.dart';
-import 'models/item.dart';
-import 'models/match.dart';
+import '../api_requests/items.dart';
+import '../auth.dart';
+import '../text.dart';
+import '../general_widgets.dart';
+import '../google_maps.dart';
+import '../models/item.dart';
+import '../models/match.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class matchesDetailPage extends StatelessWidget {
   Match match;
@@ -86,9 +89,82 @@ class _PhotoRowState extends State<PhotoRow> {
           children: <Widget>[
             Box,
             DetailSubtitle(heading),
-            SampleImage,
+            Gallery(item),
+            // SampleImage,
           ],
         ));
+  }
+}
+
+class Gallery extends StatefulWidget {
+  Item item;
+
+  // List<Image> loadedImages;
+
+  Gallery(this.item);
+
+  @override
+  State<StatefulWidget> createState() => _GalleryState();
+}
+
+class _GalleryState extends State<Gallery> {
+  @override
+  initState() {
+    super.initState();
+    // if (widget.item.images.length == 0){
+    //   widget.item.images[0] = "6b42759d-83e6-47b3-beec-347d09c2eead.png"
+    //   ;
+    // }
+  }
+  
+  getImage(int index){
+    if (widget.item.images.length == 0) {
+      print("Loading asset");
+      return AssetImage('assets/img/default.jpg');
+    }
+    else {
+      return NetworkImage(
+          'http://${GlobalData.serverAddress}/api/files/download/'
+              '${widget.item.id}/${widget.item.images[index]}',
+          headers: {'Authorization': GlobalData.jwt},
+      );
+      }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int listLength = widget.item.images.length;
+
+    if (listLength == 0){
+      listLength = 1;
+    }
+    return Container(
+        height: 200.0,
+        // width: 300.0,
+        margin: new EdgeInsets.only(top: 30.0, right: 20, left: 20),
+        alignment: FractionalOffset.center,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: (BuildContext context, int index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: getImage(index),
+                  initialScale: PhotoViewComputedScale.contained,
+                );
+              },
+              itemCount: listLength,
+              loadingBuilder: (context, event) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              backgroundDecoration: BoxDecoration(color: Colors.white),
+              // pageController: widget.pageController,
+              // onPageChanged: onPageChanged,
+            )));
   }
 }
 
