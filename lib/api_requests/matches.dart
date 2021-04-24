@@ -28,3 +28,22 @@ Future<List<Match>> fetchMatches() async {
     throw Exception('Failed to load album');
   }
 }
+
+Future<int> updateMatch(Match match) async {
+  String route = 'api/items/matches/' + match.id;
+  var response = await http.patch(
+    Uri.http(GlobalData.serverAddress, route),
+    headers: {
+      'Authorization': GlobalData.jwt,
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body: json.encode(match.toJson()),
+  );
+  if (response.statusCode == 200) {
+    print("UPDATE OK");
+    return 0;
+  } else {
+    print("UPDATE FAILED");
+    return 1;
+  }
+}

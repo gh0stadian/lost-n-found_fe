@@ -1,10 +1,12 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:lost_and_found_ui/pop_ups/confirmation_pop_up.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
 import '../api_requests/items.dart';
 import '../auth.dart';
+import '../detail_page.dart';
 import '../text.dart';
 import '../general_widgets.dart';
 import '../google_maps.dart';
@@ -24,7 +26,7 @@ class matchesDetailPage extends StatelessWidget {
     return new Scaffold(
       appBar: matchesTopBar("0915641892"),
       backgroundColor: Colors.white,
-      floatingActionButton: matchSpeedDial,
+      floatingActionButton: matchSpeedDial(match),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     // ADD CALL TO UPDATE MATCH
@@ -112,26 +114,25 @@ class _GalleryState extends State<Gallery> {
   initState() {
     super.initState();
   }
-  
-  getImage(int index){
+
+  getImage(int index) {
     if (widget.item.images.length == 0) {
       print("Loading asset");
       return AssetImage('assets/img/default.jpg');
-    }
-    else {
+    } else {
       return NetworkImage(
-          'http://${GlobalData.serverAddress}/api/files/download/'
-              '${widget.item.id}/${widget.item.images[index]}',
-          headers: {'Authorization': GlobalData.jwt},
+        'http://${GlobalData.serverAddress}/api/files/download/'
+        '${widget.item.id}/${widget.item.images[index]}',
+        headers: {'Authorization': GlobalData.jwt},
       );
-      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     int listLength = widget.item.images.length;
 
-    if (listLength == 0){
+    if (listLength == 0) {
       listLength = 1;
     }
     return Container(
@@ -181,40 +182,53 @@ final Box = new Container(
   ),
 );
 
+class matchSpeedDial extends StatelessWidget {
+  Match match;
+  matchSpeedDial(this.match);
 
-final matchSpeedDial = new SpeedDial(
-  marginEnd: 18,
-  marginBottom: 20,
-  animatedIcon: AnimatedIcons.menu_arrow,
-  animatedIconTheme: IconThemeData(size: 28.0),
-  visible: true,
-  closeManually: false,
-  renderOverlay: false,
-  curve: Curves.bounceIn,
-  overlayColor: Colors.black,
-  overlayOpacity: 0.5,
-  tooltip: 'Speed Dial',
-  heroTag: 'speed-dial-hero-tag',
-  backgroundColor: Colors.lightBlue,
-  foregroundColor: Colors.black,
-  elevation: 8.0,
-  shape: CircleBorder(),
-  children: [
-    SpeedDialChild(
-      child: Icon(Icons.done),
-      backgroundColor: Colors.green,
-      label: 'Mark resolved',
-      labelStyle: TextStyle(fontSize: 18.0),
-      onTap: () => print('Accept match pressed'),
-      onLongPress: () => print('FIRST CHILD LONG PRESS'),
-    ),
-    SpeedDialChild(
-      child: Icon(Icons.close),
-      backgroundColor: Colors.red,
-      label: 'Not a match',
-      labelStyle: TextStyle(fontSize: 18.0),
-      onTap: () => print('Decline match pressed'),
-      onLongPress: () => print('THIRD CHILD LONG PRESS'),
-    ),
-  ],
-);
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      marginEnd: 18,
+      marginBottom: 20,
+      animatedIcon: AnimatedIcons.menu_arrow,
+      animatedIconTheme: IconThemeData(size: 28.0),
+      visible: true,
+      closeManually: false,
+      renderOverlay: false,
+      curve: Curves.bounceIn,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.5,
+      tooltip: 'Speed Dial',
+      heroTag: 'speed-dial-hero-tag',
+      backgroundColor: Colors.lightBlue,
+      foregroundColor: Colors.black,
+      elevation: 8.0,
+      shape: CircleBorder(),
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.done),
+          backgroundColor: Colors.green,
+          label: 'Mark resolved',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            Navigator.of(context).push(
+                popUpRoute(confirmationPopUp(match, "resolve"))
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.close),
+          backgroundColor: Colors.red,
+          label: 'Not a match',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () {
+            Navigator.of(context).push(
+                popUpRoute(confirmationPopUp(match, "not a match"))
+            );
+          }
+        ),
+      ],
+    );
+  }
+}
