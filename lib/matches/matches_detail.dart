@@ -1,6 +1,7 @@
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lost_and_found_ui/pop_ups/confirmation_pop_up.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_photos.dart';
@@ -40,6 +41,7 @@ class matchesDetailPage extends StatelessWidget {
             new DetailHeading(match.lost.title),
             PhotoRow(match.found, "Found item photos:"),
             PhotoRow(match.lost, "Lost item photos:"),
+            MapRow(match.found, match.lost)
             // new MapRow(item),
           ],
         ),
@@ -230,5 +232,58 @@ class matchSpeedDial extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class MapRow extends StatelessWidget {
+  MapRow(this.item1, this.item2);
+
+  final Item item1;
+  final Item item2;
+
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _MapRowState(item1, item2);
+//   }
+// }
+//
+// class _MapRowState extends State<MapRow> {
+//   _MapRowState(this.item1, this.item2);
+//
+//   Item item1;
+//   Item item2;
+//
+//   refreshItem(newItem) {
+//     setState(() {
+//       this.item = newItem;
+//     });
+//   }
+//
+//   @override
+//   initState() {
+//     super.initState();
+//     refreshItem(this.item);
+//   }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+        height: 250.0,
+        margin: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 10.0,
+        ),
+        alignment: FractionalOffset.topCenter,
+        child: new Stack(
+          children: <Widget>[
+            Map(
+              key: UniqueKey(),
+              item1coords: LatLng(item1.latitude, item1.longitude),
+              item2coords: LatLng(item2.latitude, item2.longitude),
+            ),
+            DetailSubtitle("Location:"),
+            // MapSampleState(),
+          ],
+        ));
   }
 }
