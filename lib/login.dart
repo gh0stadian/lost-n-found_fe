@@ -159,6 +159,7 @@ class LoginScreen extends StatelessWidget {
       title: 'Lost&Found',
       onLogin: logIn,
       onSignup: register,
+
       onSubmitAnimationCompleted: () {
         if (GlobalData.userExists) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(

@@ -20,5 +20,6 @@ class Item {
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
   Map<String, dynamic> toJsonWithoutImages() => _$ItemToJson(this);
+  Map<String, dynamic> toJsonWithoutImagesAndID() => _$ItemToJson(this);
 
 }

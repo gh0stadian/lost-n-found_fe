@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/api_requests/images.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:lost_and_found_ui/api_requests/items.dart';
@@ -11,6 +13,10 @@ import 'package:lost_and_found_ui/models/item.dart';
 import '../text.dart';
 
 class editPhotosPopUp extends StatefulWidget {
+  Item item;
+
+  editPhotosPopUp(this.item);
+
   @override
   State<StatefulWidget> createState() => _editPhotosPopUpState();
 }
@@ -36,6 +42,17 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
     setState(() {
       images = resultList;
     });
+  }
+
+  persistImages(){
+    print("UPLOADING");
+    for (var image in images){
+      image.getByteData().then((value) {
+        var bytes = value.buffer.asUint8List();
+        uploadImage(bytes, widget.item.id);
+      });
+
+    }
   }
 
   @override
@@ -73,10 +90,10 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
               "Photos:",
               style: TextStyle(color: Colors.grey, fontSize: 18),
             ),
-            contentPadding: EdgeInsets.only(top: 10.0, left: 40, right: 40),
+            contentPadding: EdgeInsets.only(left: 40, right: 40),
             content: Container(
                 width: 400,
-                height: 280,
+                height: 250,
                 child: Column(
                   children: [
                     Expanded(
@@ -116,8 +133,7 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
                 elevation: 5.0,
                 child: Text("Done"),
                 onPressed: () {
-                  print("SAVING");
-                  Navigator.of(context).pop();
+                  persistImages();
                 },
               ),
             ],

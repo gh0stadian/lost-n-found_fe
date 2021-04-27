@@ -36,3 +36,11 @@ Map<String, dynamic> _$ItemToJsonWithoutImages(Item instance) => <String, dynami
   'longitude': instance.longitude,
   'category': instance.category,
 };
+
+Map<String, dynamic> _$ItemToJsonWithoutImagesAndID(Item instance) => <String, dynamic>{
+  'title': instance.title,
+  'description': instance.description,
+  'latitude': instance.latitude,
+  'longitude': instance.longitude,
+  'category': instance.category,
+};

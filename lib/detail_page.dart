@@ -88,7 +88,7 @@ class _PhotoRowState extends State<PhotoRow> {
             // ItemThumbnail(item),
             Gallery(item),
             EditIcon(refreshItem, item, itemType,
-                redirection: editPhotosPopUp()),
+                redirection: editPhotosPopUp(item)),
           ],
         ));
   }

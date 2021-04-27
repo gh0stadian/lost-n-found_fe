@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/pop_ups/add_new_item_popup.dart';
 import 'auth.dart';
 import 'detail_page.dart';
 import 'text.dart';
@@ -16,6 +17,13 @@ class LostItemPage extends StatelessWidget {
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
       bottomNavigationBar: customBottomNavigationBar(1),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(popUpRoute(createItemPopUp()));
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.green,
+      ),
       body: ListView(
         children: <Widget>[
             new Heading("Lost items"),

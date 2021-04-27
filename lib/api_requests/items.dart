@@ -49,8 +49,28 @@ Future<int> updateItem(Item item, String itemType) async {
   }
 }
 
-// Image getImage(String id) {
-//   return Image.network(
-//
-//   )
-// }
+Future<Item> createItem(Item item, String itemType) async {
+  item.latitude = 10;
+  item.longitude = 10;
+  String route = 'api/items/' + itemType;
+  print(item.toJson());
+  var response = await http.post(
+    Uri.http(GlobalData.serverAddress, route),
+    headers: {
+      'Authorization': GlobalData.jwt,
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body: json.encode(item.toJsonWithoutImagesAndID()),
+  );
+
+  Map decoded = jsonDecode(response.body);
+  Item item_obj = Item.fromJson(decoded);
+
+  if (response.statusCode == 200) {
+    print("UPDATE OK");
+    return item_obj;
+  } else {
+    print("UPDATE FAILED");
+    return null;
+  }
+}
