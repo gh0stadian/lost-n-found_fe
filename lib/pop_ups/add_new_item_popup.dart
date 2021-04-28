@@ -8,6 +8,9 @@ import '../text.dart';
 import 'edit_photos.dart';
 
 class createItemPopUp extends StatefulWidget {
+  String itemType;
+
+  createItemPopUp(this.itemType);
 
   @override
   State<StatefulWidget> createState() => _createItemPopUpState();
@@ -104,7 +107,7 @@ class _createItemPopUpState extends State<createItemPopUp> {
                   item.title = titleController.text;
                   item.description = descriptionController.text;
                   item.category = selectedCategory;
-                  createItem(item, "lost").then((value) {
+                  createItem(item, widget.itemType).then((value) {
                     item = value;
                     Navigator.of(context).push(DialogRoute(
                         context: context,

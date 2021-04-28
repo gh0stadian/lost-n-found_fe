@@ -70,6 +70,7 @@ Future<Item> createItem(Item item, String itemType) async {
     print("UPDATE OK");
     return item_obj;
   } else {
+    print(response.statusCode);
     print("UPDATE FAILED");
     return null;
   }

@@ -49,7 +49,6 @@ Future<bool> getUser(String uid) async {
   } else {
     return false;
   }
-
 }
 
 Future<String> logIn(LoginData data) async {

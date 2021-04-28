@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/api_requests/items.dart';
+import 'package:lost_and_found_ui/found_item.dart';
 import 'lost_item.dart';
 import 'matches/matches.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -140,7 +141,7 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
   static List<Widget> _widgetOptions = <Widget>[
     MatchesPage(),
     LostItemPage(),
-    LostItemPage(),
+    FoundItemPage(),
   ];
 
   void _onItemTapped(int index) {

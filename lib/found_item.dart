@@ -10,26 +10,26 @@ import 'general_widgets.dart';
 import 'models/item.dart';
 import 'api_requests/items.dart';
 
-class LostItemPage extends StatelessWidget {
+class FoundItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       // appBar: CustomTopBar(""),
       backgroundColor: Colors.white,
-      bottomNavigationBar: customBottomNavigationBar(1),
+      bottomNavigationBar: customBottomNavigationBar(2),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(popUpRoute(createItemPopUp("lost")));
+          Navigator.of(context).push(popUpRoute(createItemPopUp("found")));
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
       body: ListView(
         children: <Widget>[
-            new Heading("Lost items"),
-            new ItemCol(),
-          ],
-        ),
+          new Heading("Found items"),
+          new ItemCol(),
+        ],
+      ),
     );
   }
 }
@@ -47,7 +47,7 @@ class _ItemColState extends State<ItemCol> {
   bool fetched = false;
 
   refresh() {
-    fetchItems('lost').then((value) {
+    fetchItems('found').then((value) {
       setState(() {
         items = value;
         fetched = true;
@@ -74,30 +74,30 @@ class _ItemColState extends State<ItemCol> {
               itemBuilder: (context, index) {
                 return ItemRow(items[index], refresh);
               }
-              )
+          )
       );
     } else if (fetched && items.length == 0){
       return Container(
-          height: 500,
-          alignment: Alignment.center,
-          // child: Center(
-            child: GradientText(
-              text: "You dont have any lost items",
-              colors: <Color>[
-                Colors.blue,
-                Colors.lightBlue.shade900,
-              ],
-              style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
-            ),
-          // )
+        height: 500,
+        alignment: Alignment.center,
+        // child: Center(
+        child: GradientText(
+          text: "You dont have any found items",
+          colors: <Color>[
+            Colors.blue,
+            Colors.lightBlue.shade900,
+          ],
+          style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+        ),
+        // )
       );
     }
     else {
       return Container(
-        height: 500,
-        child: Center(
-          child: CircularProgressIndicator(),
-        )
+          height: 500,
+          child: Center(
+            child: CircularProgressIndicator(),
+          )
       );
     }
   }
@@ -121,7 +121,7 @@ class ItemRow extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DetailPage(item, "lost")),
+                MaterialPageRoute(builder: (context) => DetailPage(item, "found")),
               ).then((value) => refreshCallback());
             },
             child: new Stack(
@@ -173,7 +173,7 @@ class ItemThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 40),
+      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 10),
       alignment: FractionalOffset.topCenter,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
