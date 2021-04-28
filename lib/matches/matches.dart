@@ -168,7 +168,7 @@ class MatchThumbnails extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: new EdgeInsets.only(top: 55.0),
+        margin: new EdgeInsets.only(top: 55.0, bottom: 40),
         alignment: FractionalOffset.topCenter,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

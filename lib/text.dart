@@ -144,10 +144,6 @@ class DetailInformation extends StatelessWidget {
         children: [
           DetailInformationRow("category:", category),
           SizedBox(height: 15),
-          DetailInformationRow("brand:", brand),
-          SizedBox(height: 15),
-          DetailInformationRow("model:", model),
-          SizedBox(height: 15),
           DetailInformationRow("description:", description),
         ],
       ),

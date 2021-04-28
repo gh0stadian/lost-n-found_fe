@@ -35,7 +35,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-            margin: EdgeInsets.all(8),
+            margin: EdgeInsets.only(left: 45, right: 45),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(edgeRadius),
               color: Colors.white,
@@ -48,83 +48,98 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 )
               ],
             ),
-            child: new Column(children: <Widget>[
+            child: ListView(
+              shrinkWrap: true,
+              children: [
               Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: TextField(
-                    controller: email,
-                    decoration: new InputDecoration(
-                      labelText: 'Email',
-                      border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(edgeRadius),
-                        borderSide: new BorderSide(),
+                padding: EdgeInsets.only(left: 12, top:10, bottom: 3),
+                  child:Text(
+                    "One more thing...",
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,),
+                  ),
+              ),
+                Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: TextField(
+                      controller: email,
+                      decoration: new InputDecoration(
+                        labelText: 'Email',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(edgeRadius),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
-                    ),
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: TextField(
-                    controller: name,
-                    decoration: new InputDecoration(
-                      labelText: 'Full name',
-                      border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(edgeRadius),
-                        borderSide: new BorderSide(),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: TextField(
+                      controller: name,
+                      decoration: new InputDecoration(
+                        labelText: 'Full name',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(edgeRadius),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
-                    ),
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: TextField(
-                    controller: nickname,
-                    decoration: new InputDecoration(
-                      labelText: 'Nickname',
-                      border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(edgeRadius),
-                        borderSide: new BorderSide(),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: TextField(
+                      controller: nickname,
+                      decoration: new InputDecoration(
+                        labelText: 'Nickname',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(edgeRadius),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
-                    ),
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: TextField(
-                    controller: telephone,
-                    decoration: new InputDecoration(
-                      labelText: 'Telephone number',
-                      border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(edgeRadius),
-                        borderSide: new BorderSide(),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: TextField(
+                      controller: telephone,
+                      decoration: new InputDecoration(
+                        labelText: 'Telephone number',
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(edgeRadius),
+                          borderSide: new BorderSide(),
+                        ),
                       ),
-                    ),
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(padding),
-                  child: ElevatedButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                    ),
-                    onPressed: () {
-                      showLoadingDialog();
-                      submitUser(email.text, name.text, nickname.text,
-                              telephone.text)
-                          .then((value) {
-                        hideLoadingDialog();
-                        if (value) {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                            builder: (context) => MatchesPage(),
-                          ));
-                        } else {
-                          _showFlash(
-                              message:
-                                  "Error in registration. Please check your data.",
-                              duration: Duration(milliseconds: 3000),
-                              context: context);
-                        }
-                      });
-                    },
-                    child: Text("Finish registration"),
-                  ))
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(bottom: 15, left: 10, right: 10, top:10),
+                    child: Container(
+                      height: 55,
+                      child: ElevatedButton(
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+                        // padding:  EdgeInsets.only(top:10.0),
+                      ),
+                      onPressed: () {
+                        showLoadingDialog();
+                        submitUser(email.text, name.text, nickname.text,
+                            telephone.text)
+                            .then((value) {
+                          hideLoadingDialog();
+                          if (value) {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => MatchesPage(),
+                            ));
+                          } else {
+                            _showFlash(
+                                message:
+                                "Error in registration. Please check your data.",
+                                duration: Duration(milliseconds: 3000),
+                                context: context);
+                          }
+                        });
+                      },
+                      child: Text("Finish registration"),
+                        )),)
             ])));
   }
 }
@@ -133,7 +148,18 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: CustomTopBar("Registration"),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          bottomOpacity: 0.0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
+          ),
+        ),
         backgroundColor: Colors.blue,
         // bottomNavigationBar: ,
         body: RegistrationForm());
@@ -159,7 +185,6 @@ class LoginScreen extends StatelessWidget {
       title: 'Lost&Found',
       onLogin: logIn,
       onSignup: register,
-
       onSubmitAnimationCompleted: () {
         if (GlobalData.userExists) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(

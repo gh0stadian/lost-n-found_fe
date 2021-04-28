@@ -173,7 +173,7 @@ class ItemThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 10),
+      margin: new EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 40),
       alignment: FractionalOffset.topCenter,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
