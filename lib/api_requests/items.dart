@@ -74,3 +74,21 @@ Future<Item> createItem(Item item, String itemType) async {
     return null;
   }
 }
+
+Future<int> deleteItem(Item item, String itemType) async {
+  String route = 'api/items/' + itemType + '/' + item.id;
+  var response = await http.delete(
+    Uri.http(GlobalData.serverAddress, route),
+    headers: {
+      'Authorization': GlobalData.jwt,
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+  );
+  if (response.statusCode == 200) {
+    print("DELETED");
+    return 0;
+  } else {
+    print("DELETE FAILED");
+    return 1;
+  }
+}

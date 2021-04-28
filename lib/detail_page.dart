@@ -26,7 +26,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: CustomTopBar(""),
+      appBar: detailTopBar(item, itemType),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: new Column(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found_ui/api_requests/items.dart';
 import 'lost_item.dart';
 import 'matches/matches.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'models/item.dart';
 
 class CustomTopBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -28,6 +31,37 @@ class CustomTopBar extends StatelessWidget with PreferredSizeWidget {
         icon: Icon(Icons.arrow_back, color: Colors.black),
         onPressed: () => Navigator.of(context).pop(),
       ),
+      
+    );
+  }
+}
+
+
+class detailTopBar extends StatelessWidget with PreferredSizeWidget {
+  @override
+  final Size preferredSize;
+  Item item;
+  String itemType;
+
+  detailTopBar(this.item, this.itemType)  : preferredSize = Size.fromHeight(50.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      bottomOpacity: 0.0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back, color: Colors.black),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.delete, color: Colors.black),
+            onPressed: () => deleteItem(item, itemType).then((value) =>
+                Navigator.of(context).pop())),
+      ],
+
     );
   }
 }
