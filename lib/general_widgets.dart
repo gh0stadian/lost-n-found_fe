@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/api_requests/items.dart';
 import 'package:lost_and_found_ui/found_item.dart';
 import 'package:lost_and_found_ui/login.dart';
+import 'package:lost_and_found_ui/pop_ups/log_out_confirmation.dart';
 import 'auth.dart';
 import 'lost_item.dart';
 import 'matches/matches.dart';
@@ -144,17 +145,17 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
     MatchesPage(),
     LostItemPage(),
     FoundItemPage(),
-    LoginScreen(),
+    LogOutConfirmationPopUp(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      if (index == 3){
-        GlobalData.jwt = null;
-        GlobalData.uid = null;
-        GlobalData.userExists = false;
+      if (index != 3){
+        _selectedIndex = index;
       }
+      // if (index == 3){
+
+      // }
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => _widgetOptions[index]),
