@@ -72,7 +72,7 @@ class _MatchColState extends State<MatchCol> {
     }
     else if (fetched && matches.length == 0){
       return Container(
-        height: 500,
+        height: 650,
         alignment: Alignment.center,
         child: GradientText(
           text: "You dont have any matches",

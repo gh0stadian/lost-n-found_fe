@@ -19,9 +19,6 @@ Future<List<Item>> fetchItems(String itemType) async {
       Item item_obj = Item.fromJson(item);
       items.add(item_obj);
     }
-    String itemname = items[0].id;
-
-    print("ID of the item is $itemname");
     return items;
   } else {
     // If the server did not return a 200 OK response,

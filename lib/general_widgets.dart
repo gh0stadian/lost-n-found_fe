@@ -182,7 +182,7 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
           label: 'Lost items',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.find_in_page_outlined),
+          icon: Icon(Icons.inventory),
           backgroundColor: Colors.white,
           label: 'Found items',
         ),

@@ -41,7 +41,7 @@ class matchesDetailPage extends StatelessWidget {
             new DetailHeading(match.lost.title),
             PhotoRow(match.found, "Found item photos:"),
             PhotoRow(match.lost, "Lost item photos:"),
-            MapRow(match.found, match.lost)
+            MatchMapRow(match.found, match.lost)
             // new MapRow(item),
           ],
         ),
@@ -235,35 +235,17 @@ class matchSpeedDial extends StatelessWidget {
   }
 }
 
-class MapRow extends StatelessWidget {
-  MapRow(this.item1, this.item2);
+class MatchMapRow extends StatelessWidget {
+  MatchMapRow(this.item1, this.item2);
 
   final Item item1;
   final Item item2;
 
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _MapRowState(item1, item2);
-//   }
-// }
-//
-// class _MapRowState extends State<MapRow> {
-//   _MapRowState(this.item1, this.item2);
-//
-//   Item item1;
-//   Item item2;
-//
-//   refreshItem(newItem) {
-//     setState(() {
-//       this.item = newItem;
-//     });
-//   }
-//
-//   @override
-//   initState() {
-//     super.initState();
-//     refreshItem(this.item);
-//   }
+  // @override
+  // State<StatefulWidget> createState() {
+  //   return _MatchMapRowState(item1, item2);
+  // }
+
 
   @override
   Widget build(BuildContext context) {

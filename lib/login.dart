@@ -22,6 +22,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   TextEditingController name = TextEditingController();
   TextEditingController nickname = TextEditingController();
   TextEditingController telephone = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -29,6 +30,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 
   double padding = 10.0;
+  double mleft = 20;
+  double mright = 20;
+  double mtop = 0;
+  double mbottom = 0;
   double edgeRadius = 15.0;
 
   @override
@@ -48,99 +53,154 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 )
               ],
             ),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-              Padding(
-                padding: EdgeInsets.only(left: 12, top:10, bottom: 3),
-                  child:Text(
-                    "One more thing...",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,),
+            child: Form(
+                key: _formKey,
+                child: ListView(shrinkWrap: true, children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 12, top: 10, bottom: 3),
+                    child: Text(
+                      "One more thing...",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-              ),
-                Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: TextField(
-                      controller: email,
-                      decoration: new InputDecoration(
-                        labelText: 'Email',
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(edgeRadius),
-                          borderSide: new BorderSide(),
+                  Padding(
+                      // padding: EdgeInsets.all(padding),
+                      padding: EdgeInsets.only(
+                          left: mleft,
+                          top: mtop,
+                          bottom: mbottom,
+                          right: mright),
+                      child: TextFormField(
+                        controller: email,
+                        decoration: new InputDecoration(
+                          labelText: 'Email',
+                          // border: new OutlineInputBorder(
+                          //   borderRadius: new BorderRadius.circular(edgeRadius),
+                          //   borderSide: new BorderSide(),
+                          // ),
                         ),
-                      ),
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: TextField(
-                      controller: name,
-                      decoration: new InputDecoration(
-                        labelText: 'Full name',
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(edgeRadius),
-                          borderSide: new BorderSide(),
-                        ),
-                      ),
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: TextField(
-                      controller: nickname,
-                      decoration: new InputDecoration(
-                        labelText: 'Nickname',
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(edgeRadius),
-                          borderSide: new BorderSide(),
-                        ),
-                      ),
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: TextField(
-                      controller: telephone,
-                      decoration: new InputDecoration(
-                        labelText: 'Telephone number',
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(edgeRadius),
-                          borderSide: new BorderSide(),
-                        ),
-                      ),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(bottom: 15, left: 10, right: 10, top:10),
-                    child: Container(
-                      height: 55,
-                      child: ElevatedButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
-                        // padding:  EdgeInsets.only(top:10.0),
-                      ),
-                      onPressed: () {
-                        showLoadingDialog();
-                        submitUser(email.text, name.text, nickname.text,
-                            telephone.text)
-                            .then((value) {
-                          hideLoadingDialog();
-                          if (value) {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => MatchesPage(),
-                            ));
-                          } else {
-                            _showFlash(
-                                message:
-                                "Error in registration. Please check your data.",
-                                duration: Duration(milliseconds: 3000),
-                                context: context);
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value == "") {
+                            return "Missing email address";
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              // ignore: missing_return
+                              .hasMatch(value)) {
+                            return "Invalid email format";
                           }
-                        });
-                      },
-                      child: Text("Finish registration"),
-                        )),)
-            ])));
+                          return null;
+                        },
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: mleft,
+                          top: mtop,
+                          bottom: mbottom,
+                          right: mright),
+                      child: TextFormField(
+                          controller: name,
+                          decoration: new InputDecoration(
+                            labelText: 'Full name',
+                            // border: new OutlineInputBorder(
+                            //   borderRadius: new BorderRadius.circular(edgeRadius),
+                            //   borderSide: new BorderSide(),
+                            // ),
+                          ),
+                          validator: (value) {
+                            if (value == "") {
+                              return "Missing name";
+                            }
+                            return null;
+                          })),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: mleft,
+                          top: mtop,
+                          bottom: mbottom,
+                          right: mright),
+                      child: TextFormField(
+                          controller: nickname,
+                          decoration: new InputDecoration(
+                            labelText: 'Nickname',
+                            // border: new OutlineInputBorder(
+                            //   borderRadius: new BorderRadius.circular(edgeRadius),
+                            //   borderSide: new BorderSide(),
+                            // ),
+                          ),
+                          validator: (value) {
+                            if (value == "") {
+                              return "Missing nickname";
+                            }
+                            return null;
+                          })),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: mleft,
+                          top: mtop,
+                          bottom: mbottom,
+                          right: mright),
+                      child: TextFormField(
+                          controller: telephone,
+                          decoration: new InputDecoration(
+                            labelText: 'Telephone number',
+                            // border: new OutlineInputBorder(
+                            //   borderRadius: new BorderRadius.circular(edgeRadius),
+                            //   borderSide: new BorderSide(),
+                            // ),
+                          ),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Missing telephone number";
+                              // ignore: missing_return,
+                            } else if (!RegExp(r"^\+[0-9]+").hasMatch(value)) {
+                              return "Invalid number format. Please use +XXX...";
+                            }
+                            return null;
+                          })),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: mleft, top: 20, bottom: 20, right: mright),
+                    child: Container(
+                        height: 55,
+                        child: ElevatedButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                    color: Color.fromRGBO(0, 160, 227, 1))),
+                            // padding:  EdgeInsets.only(top:10.0),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              showLoadingDialog();
+                              submitUser(email.text, name.text, nickname.text,
+                                      telephone.text)
+                                  .then((value) {
+                                hideLoadingDialog();
+                                if (value) {
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => MatchesPage(),
+                                  ));
+                                } else {
+                                  _showFlash(
+                                      message:
+                                          "Error in registration. Please check your data.",
+                                      duration: Duration(milliseconds: 3000),
+                                      context: context);
+                                }
+                              });
+                            }
+                          },
+                          child: Text("Finish registration"),
+                        )),
+                  )
+                ]))));
   }
 }
 

@@ -78,7 +78,7 @@ class _ItemColState extends State<ItemCol> {
       );
     } else if (fetched && items.length == 0){
       return Container(
-        height: 500,
+        height: 650,
         alignment: Alignment.center,
         // child: Center(
         child: GradientText(

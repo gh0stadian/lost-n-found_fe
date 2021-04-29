@@ -6,16 +6,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/api_requests/images.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:load/load.dart';
 
 import 'package:lost_and_found_ui/api_requests/items.dart';
 import 'package:lost_and_found_ui/api_requests/metadata.dart';
 import 'package:lost_and_found_ui/models/item.dart';
+import "location_picker.dart";
 import '../text.dart';
 
 class editPhotosPopUp extends StatefulWidget {
   Item item;
+  String itemType;
+  bool isNew;
 
-  editPhotosPopUp(this.item);
+  editPhotosPopUp(this.item, this.itemType, this.isNew);
 
   @override
   State<StatefulWidget> createState() => _editPhotosPopUpState();
@@ -44,14 +48,51 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
     });
   }
 
-  persistImages(){
+  persistImages() {
     print("UPLOADING");
-    for (var image in images){
+    for (var image in images) {
       image.getByteData().then((value) {
         var bytes = value.buffer.asUint8List();
-        uploadImage(bytes, widget.item.id);
+        showLoadingDialog();
+        uploadImage(bytes, widget.item.id).then((value) => hideLoadingDialog());
       });
+    }
+  }
 
+  getActions() {
+    if (widget.isNew) {
+      return <Widget>[
+        MaterialButton(
+          elevation: 5.0,
+          child: Text("Next"),
+          onPressed: () {
+            persistImages();
+            Navigator.of(context).push(DialogRoute(
+                context: context,
+                builder: (BuildContext context) =>
+                    LocationPickerPopup(widget.item, widget.itemType)));
+          },
+        ),
+      ];
+    }
+    else {
+      return <Widget>[
+        MaterialButton(
+          elevation: 5.0,
+          child: Text("Back"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        MaterialButton(
+          elevation: 5.0,
+          child: Text("Done"),
+          onPressed: () {
+            persistImages();
+            Navigator.pop(context);
+          },
+        ),
+      ];
     }
   }
 
@@ -82,10 +123,10 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
         filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
         child: Container(
           decoration:
-              new BoxDecoration(color: Colors.grey.shade200.withOpacity(0.5)),
+          new BoxDecoration(color: Colors.grey.shade200.withOpacity(0.5)),
           child: AlertDialog(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             title: new Text(
               "Photos:",
               style: TextStyle(color: Colors.grey, fontSize: 18),
@@ -121,22 +162,7 @@ class _editPhotosPopUpState extends State<editPhotosPopUp> {
                     ),
                   ],
                 )),
-            actions: <Widget>[
-              MaterialButton(
-                elevation: 5.0,
-                child: Text("Back"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              MaterialButton(
-                elevation: 5.0,
-                child: Text("Done"),
-                onPressed: () {
-                  persistImages();
-                },
-              ),
-            ],
+            actions: this.getActions(),
           ),
         ));
   }
