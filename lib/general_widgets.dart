@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/api_requests/items.dart';
 import 'package:lost_and_found_ui/found_item.dart';
+import 'package:lost_and_found_ui/login.dart';
+import 'auth.dart';
 import 'lost_item.dart';
 import 'matches/matches.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,11 +144,17 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
     MatchesPage(),
     LostItemPage(),
     FoundItemPage(),
+    LoginScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 3){
+        GlobalData.jwt = null;
+        GlobalData.uid = null;
+        GlobalData.userExists = false;
+      }
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => _widgetOptions[index]),
@@ -157,19 +165,31 @@ class _NavigationBarState extends State<customBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      selectedItemColor: Colors.blue,
+      unselectedItemColor: Colors.black,
+      unselectedLabelStyle: TextStyle(color: Colors.black),
+
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.loop_outlined),
+          icon: Icon(Icons.compare_arrows_rounded),
+          backgroundColor: Colors.white,
           label: 'Matches',
-          backgroundColor: Colors.red,
+          // backgroundColor: Colors.red,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_search_rounded),
+          backgroundColor: Colors.white,
+          label: 'Lost items',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.find_in_page_outlined),
-          label: 'Your lost items',
+          backgroundColor: Colors.white,
+          label: 'Found items',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.find_replace_rounded),
-          label: 'Your found items',
+          icon: Icon(Icons.logout),
+          backgroundColor: Colors.blue,
+          label: 'Log out',
         ),
       ],
       currentIndex: _selectedIndex,

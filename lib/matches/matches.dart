@@ -59,7 +59,7 @@ class _MatchColState extends State<MatchCol> {
 
   @override
   Widget build(BuildContext context) {
-    if (matches != null) {
+    if (fetched && matches.length != 0) {
       return Container(
           // height: 800,
           child: ListView.builder(
@@ -69,11 +69,11 @@ class _MatchColState extends State<MatchCol> {
               itemBuilder: (context, index) {
                 return MatchRow(matches[index], refresh);
               }));
-    } else if (fetched && matches.length == 0){
+    }
+    else if (fetched && matches.length == 0){
       return Container(
         height: 500,
         alignment: Alignment.center,
-        // child: Center(
         child: GradientText(
           text: "You dont have any matches",
           colors: <Color>[
@@ -82,7 +82,6 @@ class _MatchColState extends State<MatchCol> {
           ],
           style: TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
         ),
-        // )
       );
     }
     else {

@@ -64,7 +64,7 @@ class _ItemColState extends State<ItemCol> {
 
   @override
   Widget build(BuildContext context) {
-    if (items != null) {
+    if (fetched && items.length != 0) {
       return Container(
         // height: 1200,
           child: ListView.builder(
