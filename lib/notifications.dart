@@ -45,11 +45,12 @@ class _NotificationProviderState extends State<NotificationProvider> {
       print('connect');
     });
 
-    socket.connect();
+    socket.on('notification', (data) => handleNotification(data));
 
     socket.onDisconnect((_) => print('disconnect'));
 
-    socket.on('notification', (data) => handleNotification(data));
+    socket.connect();
+    socket.emit("authenticate", GlobalData.jwt);
 
     // socket.subscribe('notification', handleNotification);
   }
