@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lost_and_found_ui/pop_ups/edit_info.dart';
 import 'api_requests/items.dart';
 import 'login.dart';
+import 'notifications.dart';
 import 'detail_page.dart';
 import 'lost_item.dart';
 import 'dart:async';
@@ -9,6 +10,7 @@ import 'matches/matches.dart';
 import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 // TODO UNCOMMENT
 // import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,11 +19,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:load/load.dart';
 
 void main() {
-  runApp(LoadingProvider(
-    child: MyApp(),
-    themeData: LoadingThemeData(),
-  ));
+  runApp(NotificationProvider(
+      child: LoadingProvider(
+        child: MyApp(),
+        themeData: LoadingThemeData(),
+      )));
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

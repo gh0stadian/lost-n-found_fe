@@ -6,6 +6,7 @@ import 'matches/matches.dart';
 import 'auth.dart';
 import 'package:flash/flash.dart';
 import 'general_widgets.dart';
+import 'notifications.dart';
 
 const users = const {
   'bobo@bobo.sk': 'bobo',
@@ -247,6 +248,7 @@ class LoginScreen extends StatelessWidget {
       onSignup: register,
       onSubmitAnimationCompleted: () {
         if (GlobalData.userExists) {
+          authenticate();
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => LostItemPage(),
           ));
