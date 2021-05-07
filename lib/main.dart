@@ -11,23 +11,51 @@ import 'pop_ups/edit_info.dart';
 import 'google_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-// TODO UNCOMMENT
-// import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:google_map_location_picker/generated/l10n.dart'
-//     as location_picker;
+
 import 'package:load/load.dart';
 
 void main() {
+  AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for matches',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ]);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      // Insert here your friendly dialog box before call the request method
+      // This is very important to not harm the user experience
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+
   runApp(NotificationProvider(
       child: LoadingProvider(
-        child: MyApp(),
-        themeData: LoadingThemeData(),
-      )));
+    child: MyApp(),
+    themeData: LoadingThemeData(),
+  )));
 }
 
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
 
-class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+     super.initState();
+
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

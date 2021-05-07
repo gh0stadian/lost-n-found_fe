@@ -1,5 +1,8 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 // import 'package:flutter_socket_io/flutter_socket_io.dart';
 // import 'package:flutter_socket_io/socket_io_manager.dart';
 import 'auth.dart';
@@ -18,7 +21,6 @@ class NotificationProvider extends StatefulWidget {
   })  : key = GlobalKey(),
         super(key: key);
 
-
   @override
   State<StatefulWidget> createState() => _NotificationProviderState();
 }
@@ -26,9 +28,7 @@ class NotificationProvider extends StatefulWidget {
 class _NotificationProviderState extends State<NotificationProvider> {
   IO.Socket socket;
 
-
   @override
-
   void initState() {
     super.initState();
     _keys.add(widget.key);
@@ -36,10 +36,10 @@ class _NotificationProviderState extends State<NotificationProvider> {
   }
 
   void createSocket() {
-    socket = IO.io("http://"+GlobalData.serverAddress, <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-      });
+    socket = IO.io("http://" + GlobalData.serverAddress, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
 
     socket.onConnect((_) {
       print('connect');
@@ -57,16 +57,23 @@ class _NotificationProviderState extends State<NotificationProvider> {
 
   void handleNotification(data) {
     var item = data["item"];
+    var content;
+
     if (data["type"] == "lost") {
-      Get.snackbar("You have a match!", "Someone is looking for $item..");
+     content = "Someone is looking for $item..";
     } else {
-      Get.snackbar(
-          "You have a match!", "Someone has found $item, similar to yours..");
+     content = "Someone has found $item similar to yours..";
     }
+
+    AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: 10,
+            channelKey: 'basic_channel',
+            title: 'You have a match!',
+            body: content));
   }
 
   void _authenticate() {
-    socket.emit("message", "Hello!");
     socket.emit("authenticate", GlobalData.jwt);
   }
 
